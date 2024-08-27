@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Detalls de l'Apartament</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+
+<body>
+	<main class="container">
+		<h1>Detalls de l'Apartament</h1>
+		<h2>
+			<%= apartment.title %>
+		</h2>
+		<p>Preu per nit: $<%= apartment.price %>
+		</p>
+		<p>Metres quadrats: <%= apartment.size %> sqm</p>
+		<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="400">
+
+		<h3>Serveis:</h3>
+		<ul>
+			<% if (apartment.services.wifi) { %>
+				<li>WiFi</li>
+				<% } %>
+					<% if (apartment.services.airConditioner) { %>
+						<li>Aire Acondicionat</li>
+						<% } %>
+							<% if (apartment.services.kitchen) { %>
+								<li>Cuina</li>
+								<% } %>
+									<% if (apartment.services.disability) { %>
+										<li>Accés Discapacitats</li>
+										<% } %>
+											<% if (apartment.services.heater) { %>
+												<li>Calefacció</li>
+												<% } %>
+													<% if (apartment.services.tv) { %>
+														<li>Televisió</li>
+														<% } %>
+		</ul>
+	</main>
+</body>
+
+</html>

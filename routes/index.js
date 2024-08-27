@@ -4,5 +4,6 @@ const router = express.Router();
 const indexControllers = require('../controllers/index');
 
 router.get('/', indexControllers.getApartments);
+router.get('/apartment/:apartmentId', indexControllers.getApartmentDetails);
 
 module.exports = router;

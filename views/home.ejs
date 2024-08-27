@@ -1,46 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Home Page</title>
+	<title>Llista d'Apartaments</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>
 
 <body>
 	<main class="container">
-		<h1>List of Apartments</h1>
+		<h1>Llista d'Apartaments Disponibles</h1>
 		<ul>
 			<% apartments.forEach(apartment=> { %>
 				<li>
-					<h2>
-						<%= apartment.title %>
-					</h2>
-					<p>Price: $<%= apartment.price %> per night</p>
-					<p>Size: <%= apartment.size %> sqm</p>
-					<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="200">
-					<p>Services:</p>
-					<ul>
-						<% if (apartment.services.wifi) { %>
-							<li>WiFi</li>
-							<% } %>
-								<% if (apartment.services.airConditioner) { %>
-									<li>Air Conditioner</li>
-									<% } %>
-										<% if (apartment.services.kitchen) { %>
-											<li>Kitchen</li>
-											<% } %>
-												<% if (apartment.services.disability) { %>
-													<li>Disability Access</li>
-													<% } %>
-														<% if (apartment.services.heater) { %>
-															<li>Heater</li>
-															<% } %>
-																<% if (apartment.services.tv) { %>
-																	<li>TV</li>
-																	<% } %>
-					</ul>
+					<a href="/apartment/<%= apartment._id %>">
+						<h2>
+							<%= apartment.title %>
+						</h2>
+						<p>Preu per nit: $<%= apartment.price %>
+						</p>
+						<p>Metres quadrats: <%= apartment.size %> sqm</p>
+						<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="200">
+					</a>
 				</li>
 				<% }) %>
 		</ul>
