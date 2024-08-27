@@ -11,18 +11,16 @@
 <body>
 	<main class="container">
 		<h1>Add New Apartment</h1>
-		<form action="/apartments" method="POST">
+		<form action="/admin/apartment/new-apartment" method="POST">
 
 			<label for="title">Apartment Title</label>
 			<input type="text" id="title" name="title" required placeholder="Enter apartment title" minlength="3">
-
 
 			<label for="price">Price</label>
 			<input type="number" id="price" name="price" required placeholder="Enter price per night" min="1">
 
 			<label for="size">Size (in sqm)</label>
 			<input type="number" id="size" name="size" required placeholder="Enter size in square meters" min="1">
-
 
 			<label for="mainPhoto">Main Photo URL</label>
 			<input type="url" id="mainPhoto" name="mainPhoto" required placeholder="Enter URL of the main photo"

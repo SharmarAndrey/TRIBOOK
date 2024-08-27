@@ -1,4 +1,3 @@
-// Your code here ...
 const { Schema, model } = require('mongoose');
 
 const apartmentSchema = new Schema({
@@ -8,22 +7,19 @@ const apartmentSchema = new Schema({
 	},
 	price: {
 		type: Number,
-		required: true
+		required: true,
 	},
 	size: {
 		type: Number,
 		required: true,
-		min: 0
+		min: 0,
 	},
 	mainPhoto: {
 		type: String,
 		required: true,
-		match: ['\b((https?|ftp):\/\/[-\w+&@#/%=~_|!:,.;]+[-\w+&@#/%=~_|])', "URL not valid"]
+		match: [/^(https?|ftp):\/\/[-\w+&@#/%=~_|!:,.;]+[-\w+&@#/%=~_|]$/, "URL not valid"],
 	},
 	services: {
-		// array de strings 
-		// ["wifi", "air aconditionar"]
-		// objeto con los servicios { wifi: true, airConditioner: false}
 		wifi: Boolean,
 		airConditioner: Boolean,
 		kitchen: Boolean,
@@ -31,10 +27,8 @@ const apartmentSchema = new Schema({
 		heater: Boolean,
 		tv: Boolean
 	}
-
 });
 
 const Apartment = model('Apartment', apartmentSchema);
 
-// Exporta un único recurso
 module.exports = Apartment;
