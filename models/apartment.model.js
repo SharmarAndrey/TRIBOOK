@@ -5,19 +5,52 @@ const apartmentSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	description: {
+		type: String,
+		required: true
+	},
+	rules: {
+		type: String,
+		required: true
+	},
+	rooms: {
+		type: Number,
+		required: true,
+		min: 1,
+	},
+	beds: {
+		type: Number,
+		required: true,
+		min: 1,
+	},
+	bathrooms: {
+		type: Number,
+		required: true,
+		min: 1,
+	},
+	photos: {
+		type: [String],
+		required: true
+	},
+	mainPhoto: {
+		type: String,
+		required: true,
+		match: [/^https?:\/\/.+/, "URL not valid"],
+	},
 	price: {
 		type: Number,
 		required: true,
+		min: 1,
+	},
+	maxPersons: {
+		type: Number,
+		required: true,
+		min: 1,
 	},
 	size: {
 		type: Number,
 		required: true,
 		min: 0,
-	},
-	mainPhoto: {
-		type: String,
-		required: true,
-		match: [/^(https?|ftp):\/\/[-\w+&@#/%=~_|!:,.;]+[-\w+&@#/%=~_|]$/, "URL not valid"],
 	},
 	services: {
 		wifi: Boolean,
@@ -26,6 +59,18 @@ const apartmentSchema = new Schema({
 		disability: Boolean,
 		heater: Boolean,
 		tv: Boolean
+	},
+	province: {
+		type: String,
+		required: true
+	},
+	city: {
+		type: String,
+		required: true
+	},
+	gps: {
+		type: String,
+		required: true
 	}
 });
 

@@ -1,14 +1,13 @@
 const Apartment = require('../models/apartment.model.js');
 
-// Function  para render de form de nuevo apartamento 
+// Функция для отображения формы добавления новой квартиры
 const getNewApartmentForm = (req, res) => {
 	res.render('new-apartment.ejs');
 }
 
-//function para anadir New Apartment
+// Функция для добавления новой квартиры
 const createNewApartment = async (req, res) => {
 	try {
-		// Convert checkbox values to boolean
 		const services = {
 			wifi: req.body.wifi === 'on',
 			airConditioner: req.body.airConditioner === 'on',
@@ -18,22 +17,28 @@ const createNewApartment = async (req, res) => {
 			tv: req.body.tv === 'on'
 		};
 
-		// Create a new Apartment object with the converted values
 		const newApartment = new Apartment({
 			title: req.body.title,
-			price: req.body.price,
-			size: req.body.size,
+			description: req.body.description,
+			rules: req.body.rules,
+			rooms: req.body.rooms,
+			beds: req.body.beds,
+			bathrooms: req.body.bathrooms,
+			photos: req.body.photos.split(','),
 			mainPhoto: req.body.mainPhoto,
-			services: services
+			price: req.body.price,
+			maxPersons: req.body.maxPersons,
+			size: req.body.size,
+			services: services,
+			province: req.body.province,
+			city: req.body.city,
+			gps: req.body.gps
 		});
 
-		// Save the new apartment to the database
 		await newApartment.save();
 
-		// Respond to the client with a success message
 		res.status(201).json({ message: 'Apartment created successfully!' });
 	} catch (error) {
-		// Handle errors and respond to the client
 		res.status(500).json({ message: 'Failed to create apartment', error: error.message });
 	}
 }

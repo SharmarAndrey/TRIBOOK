@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Llista d'Apartaments</title>
+	<title>Apartment List</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>
 
 <body>
 	<main class="container">
-		<h1>Llista d'Apartaments Disponibles</h1>
+		<h1>Available Apartments List</h1>
 		<ul>
 			<% apartments.forEach(apartment=> { %>
 				<li>
@@ -18,11 +18,36 @@
 						<h2>
 							<%= apartment.title %>
 						</h2>
-						<p>Preu per nit: $<%= apartment.price %>
+						<p>Price per night: $<%= apartment.price %>
 						</p>
-						<p>Metres quadrats: <%= apartment.size %> sqm</p>
+						<p>Square meters: <%= apartment.size %> sqm</p>
 						<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="200">
 					</a>
+					<div class="services">
+						<!-- Displaying service icons -->
+						<% if(apartment.services.wifi) { %>
+							<img src="/icons/wifi-icon.png" alt="WiFi" title="WiFi" width="20">
+							<% } %>
+								<% if(apartment.services.airConditioner) { %>
+									<img src="/icons/air-conditioner-icon.png" alt="Air Conditioner"
+										title="Air Conditioner" width="20">
+									<% } %>
+										<% if(apartment.services.kitchen) { %>
+											<img src="/icons/kitchen-icon.png" alt="Kitchen" title="Kitchen" width="20">
+											<% } %>
+												<% if(apartment.services.disability) { %>
+													<img src="/icons/disability-icon.png" alt="Disability Access"
+														title="Disability Access" width="20">
+													<% } %>
+														<% if(apartment.services.heater) { %>
+															<img src="/icons/heater-icon.png" alt="Heater"
+																title="Heater" width="20">
+															<% } %>
+																<% if(apartment.services.tv) { %>
+																	<img src="/icons/tv-icon.png" alt="Television"
+																		title="Television" width="20">
+																	<% } %>
+					</div>
 				</li>
 				<% }) %>
 		</ul>

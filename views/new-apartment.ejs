@@ -16,15 +16,37 @@
 			<label for="title">Apartment Title</label>
 			<input type="text" id="title" name="title" required placeholder="Enter apartment title" minlength="3">
 
-			<label for="price">Price</label>
-			<input type="number" id="price" name="price" required placeholder="Enter price per night" min="1">
+			<label for="description">Description</label>
+			<textarea id="description" name="description" required placeholder="Enter apartment description"></textarea>
 
-			<label for="size">Size (in sqm)</label>
-			<input type="number" id="size" name="size" required placeholder="Enter size in square meters" min="1">
+			<label for="rules">Rules</label>
+			<textarea id="rules" name="rules" required placeholder="Enter apartment rules"></textarea>
+
+			<label for="rooms">Number of Rooms</label>
+			<input type="number" id="rooms" name="rooms" required placeholder="Enter number of rooms" min="1">
+
+			<label for="beds">Number of Beds</label>
+			<input type="number" id="beds" name="beds" required placeholder="Enter number of beds" min="1">
+
+			<label for="bathrooms">Number of Bathrooms</label>
+			<input type="number" id="bathrooms" name="bathrooms" required placeholder="Enter number of bathrooms"
+				min="1">
+
+			<label for="photos">Photo URLs (comma separated)</label>
+			<input type="text" id="photos" name="photos" required placeholder="Enter photo URLs separated by commas">
 
 			<label for="mainPhoto">Main Photo URL</label>
 			<input type="url" id="mainPhoto" name="mainPhoto" required placeholder="Enter URL of the main photo"
 				pattern="https?://.+">
+
+			<label for="price">Price per Day</label>
+			<input type="number" id="price" name="price" required placeholder="Enter price per night" min="1">
+
+			<label for="maxPersons">Max Persons</label>
+			<input type="number" id="maxPersons" name="maxPersons" required placeholder="Enter max persons" min="1">
+
+			<label for="size">Size (in sqm)</label>
+			<input type="number" id="size" name="size" required placeholder="Enter size in square meters" min="1">
 
 			<fieldset>
 				<legend>Services</legend>
@@ -58,6 +80,15 @@
 					TV
 				</label>
 			</fieldset>
+
+			<label for="province">Province</label>
+			<input type="text" id="province" name="province" required placeholder="Enter province">
+
+			<label for="city">City</label>
+			<input type="text" id="city" name="city" required placeholder="Enter city">
+
+			<label for="gps">GPS Coordinates</label>
+			<input type="text" id="gps" name="gps" required placeholder="Enter GPS coordinates">
 
 			<!-- Submit Button -->
 			<button type="submit">Add Apartment</button>

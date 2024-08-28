@@ -1,45 +1,67 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Detalls de l'Apartament</title>
+	<title>Apartment Details</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>
 
 <body>
 	<main class="container">
-		<h1>Detalls de l'Apartament</h1>
+		<h1>Apartment Details</h1>
 		<h2>
 			<%= apartment.title %>
 		</h2>
-		<p>Preu per nit: $<%= apartment.price %>
-		</p>
-		<p>Metres quadrats: <%= apartment.size %> sqm</p>
-		<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="400">
 
-		<h3>Serveis:</h3>
-		<ul>
-			<% if (apartment.services.wifi) { %>
-				<li>WiFi</li>
-				<% } %>
-					<% if (apartment.services.airConditioner) { %>
-						<li>Aire Acondicionat</li>
+		<% const details={ "Description" : apartment.description, "Rules" : apartment.rules, "Rooms" :
+			apartment.rooms, "Beds" : apartment.beds, "Bathrooms" : apartment.bathrooms, "Price per night" :
+			apartment.price ? `$${apartment.price}` : null, "Size" : apartment.size ? `${apartment.size} sqm` :
+			null, "Max Persons" : apartment.maxPersons, "Province" : apartment.province, "City" :
+			apartment.city, "GPS Coordinates" : apartment.gps }; %>
+
+			<% for (const [key, value] of Object.entries(details)) { %>
+				<% if (value) { %>
+					<p><strong>
+							<%= key %>:
+						</strong>
+						<%= value %>
+					</p>
+					<% } %>
 						<% } %>
-							<% if (apartment.services.kitchen) { %>
-								<li>Cuina</li>
+
+							<% if (apartment.mainPhoto) { %>
+								<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="400">
 								<% } %>
-									<% if (apartment.services.disability) { %>
-										<li>Accés Discapacitats</li>
-										<% } %>
-											<% if (apartment.services.heater) { %>
-												<li>Calefacció</li>
-												<% } %>
-													<% if (apartment.services.tv) { %>
-														<li>Televisió</li>
+
+									<h3>Amenities:</h3>
+									<ul>
+										<% const amenities={ "WiFi" : apartment.services.wifi, "Air Conditioner" :
+											apartment.services.airConditioner, "Kitchen" :
+											apartment.services.kitchen, "Disability Access" :
+											apartment.services.disability, "Heater" :
+											apartment.services.heater, "Television" : apartment.services.tv }; %>
+
+											<% for (const [amenity, available] of Object.entries(amenities)) { %>
+												<% if (available) { %>
+													<li>
+														<%= amenity %>
+													</li>
+													<% } %>
 														<% } %>
-		</ul>
+									</ul>
+
+									<% if (apartment.photos && apartment.photos.length> 0) { %>
+										<h3>Photos:</h3>
+										<ul>
+											<% apartment.photos.forEach(photo=> { %>
+												<li>
+													<img src="<%= photo %>" alt="Apartment photo" width="200">
+												</li>
+												<% }) %>
+										</ul>
+										<% } %>
 	</main>
 </body>
 
