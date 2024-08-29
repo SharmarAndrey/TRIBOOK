@@ -70,8 +70,19 @@ const apartmentSchema = new Schema({
 	},
 	gps: {
 		type: String,
-		required: true
-	}
+		/* required: true */
+	},
+	availableDates: [{
+		startDate: {
+			type: Date,
+			required: true
+		},
+		endDate: {
+			type: Date,
+			required: true
+		}
+	}]
+
 });
 
 const Apartment = model('Apartment', apartmentSchema);

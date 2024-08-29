@@ -1,11 +1,11 @@
 const Apartment = require('../models/apartment.model.js');
 
-// Функция для отображения формы добавления новой квартиры
+// Function to render the form for adding a new apartment
 const getNewApartmentForm = (req, res) => {
 	res.render('new-apartment.ejs');
 }
 
-// Функция для добавления новой квартиры
+// Function to handle the creation of a new apartment
 const createNewApartment = async (req, res) => {
 	try {
 		const services = {
@@ -16,6 +16,9 @@ const createNewApartment = async (req, res) => {
 			heater: req.body.heater === 'on',
 			tv: req.body.tv === 'on'
 		};
+
+		// Parse availableDates
+		const availableDates = req.body.availableDates ? JSON.parse(req.body.availableDates) : [];
 
 		const newApartment = new Apartment({
 			title: req.body.title,

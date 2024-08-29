@@ -10,13 +10,26 @@
 
 <body>
 	<main class="container">
-		<!-- Paso 1 BUSCAR: Añadir un formulario para realizar la búsqueda por precio máximo. este <form> que valor tiene el atributo method? GET . Qué valor tendrá el atributo "action"? /search -->
-
+		<!-- Search Form -->
 		<form method="GET" action="/search">
+			<label for="maxPersons">Number of Travelers:</label>
+			<input type="number" id="maxPersons" name="maxPersons" placeholder="Enter number of persons">
+
 			<label for="maxPrice">Maximum Price per Night:</label>
-			<input type="number" id="maxPrice" name="maxPrice" placeholder="Enter max price" required>
+			<input type="number" id="maxPrice" name="maxPrice" placeholder="Enter max price">
+
+			<label for="city">City:</label>
+			<input type="text" id="city" name="city" placeholder="Enter city">
+
+			<label for="startDate">Start Date:</label>
+			<input type="date" id="startDate" name="startDate">
+
+			<label for="endDate">End Date:</label>
+			<input type="date" id="endDate" name="endDate">
+
 			<button type="submit">Search</button>
 		</form>
+
 		<h1>Available Apartments List</h1>
 		<ul>
 			<% apartments.forEach(apartment=> { %>
@@ -28,7 +41,26 @@
 						<p>Price per night: $<%= apartment.price %>
 						</p>
 						<p>Square meters: <%= apartment.size %> sqm</p>
-						<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="200">
+						<p>Max Persons: <%= apartment.maxPersons %>
+						</p>
+
+						<!-- Display available dates -->
+						<% if(apartment.availableDates && apartment.availableDates.length> 0) { %>
+							<p>Available Dates:</p>
+							<ul>
+								<% apartment.availableDates.forEach(dateRange=> { %>
+									<li>
+										<%= new Date(dateRange.startDate).toLocaleDateString() %> - <%= new
+												Date(dateRange.endDate).toLocaleDateString() %>
+									</li>
+									<% }) %>
+							</ul>
+							<% } else { %>
+								<p>No available dates listed</p>
+								<% } %>
+
+									<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo"
+										width="200">
 					</a>
 					<div class="services">
 						<!-- Displaying service icons -->

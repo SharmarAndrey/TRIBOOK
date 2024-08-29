@@ -88,12 +88,53 @@
 			<input type="text" id="city" name="city" required placeholder="Enter city">
 
 			<label for="gps">GPS Coordinates</label>
-			<input type="text" id="gps" name="gps" required="false" placeholder="Enter GPS coordinates">
+			<input type="text" id="gps" name="gps" placeholder="Enter GPS coordinates">
+
+			<!-- New Section: Available Dates -->
+			<fieldset>
+				<legend>Available Dates</legend>
+				<label for="startDate">Start Date:</label>
+				<input type="date" id="startDate" name="startDate">
+
+				<label for="endDate">End Date:</label>
+				<input type="date" id="endDate" name="endDate">
+
+				<button type="button" id="addDateRange">Add Date Range</button>
+
+				<ul id="dateRangesList"></ul>
+				<input type="hidden" id="availableDates" name="availableDates">
+			</fieldset>
 
 			<!-- Submit Button -->
 			<button type="submit">Add Apartment</button>
 		</form>
 	</main>
+
+	<!-- JavaScript directly embedded in the EJS file -->
+	<script>
+		document.getElementById('addDateRange').addEventListener('click', function () {
+			const startDate = document.getElementById('startDate').value;
+			const endDate = document.getElementById('endDate').value;
+
+			if (startDate && endDate) {
+				const dateRangesList = document.getElementById('dateRangesList');
+				const listItem = document.createElement('li');
+				listItem.textContent = `${startDate} to ${endDate}`;
+				dateRangesList.appendChild(listItem);
+
+				const availableDatesInput = document.getElementById('availableDates');
+				const currentDates = availableDatesInput.value ? JSON.parse(availableDatesInput.value) : [];
+				currentDates.push({ startDate, endDate });
+				availableDatesInput.value = JSON.stringify(currentDates);
+
+				// Clear the date fields
+				document.getElementById('startDate').value = '';
+				document.getElementById('endDate').value = '';
+			} else {
+				alert('Please select both a start date and an end date.');
+			}
+		});
+	</script>
 </body>
 
 </html>

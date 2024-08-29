@@ -24,18 +24,48 @@ const getApartmentDetails = async (req, res) => {
 };
 
 const searchApartments = async (req, res) => {
+	try {
+		// Initialize the query object
+		const query = {};
 
+		// Parse and validate query parameters
+		const maxPersons = parseInt(req.query.maxPersons, 10);
+		const maxPrice = parseFloat(req.query.maxPrice);
+		const city = req.query.city;
+		const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
+		const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
 
-	//parsear la query string que recibo del formulario
-	const maxPrice = parseFloat(req.query.maxPrice);
-	//obtener del modelo todos los apartamentos cuyo precio sea menor que el precio maximo que el usuario esta dispuesto a pagar 
-	const apartments = await Apartment.find({ price: { $lte: maxPrice } });
-	//Pasar estos apartamentos ya filtrados a vista
+		// Add each parameter to the query only if it is provided and valid
 
+		// Add maxPersons to the query if it's a valid number
+		if (!isNaN(maxPersons)) {
+			query.maxPersons = { $gte: maxPersons };
+		}
 
-	res.render('home', {
-		apartments
-	});
+		// Add maxPrice to the query if it's a valid number
+		if (!isNaN(maxPrice)) {
+			query.price = { $lte: maxPrice };
+		}
+
+		// Add city to the query if it's provided
+		if (city) {
+			query.city = city;
+		}
+
+		// Add availableDates to the query if both startDate and endDate are valid
+		if (startDate && endDate) {
+			query.availableDates = { $elemMatch: { startDate: { $lte: startDate }, endDate: { $gte: endDate } } };
+		}
+
+		// Fetch apartments matching the query
+		const apartments = await Apartment.find(query);
+
+		// Render the filtered apartments
+		res.render('home', { apartments });
+	} catch (error) {
+		console.error('Error searching for apartments:', error);
+		res.status(500).send('Error searching for apartments');
+	}
 };
 
 module.exports = {
