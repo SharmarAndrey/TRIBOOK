@@ -23,7 +23,23 @@ const getApartmentDetails = async (req, res) => {
 	}
 };
 
+const searchApartments = async (req, res) => {
+
+
+	//parsear la query string que recibo del formulario
+	const maxPrice = parseFloat(req.query.maxPrice);
+	//obtener del modelo todos los apartamentos cuyo precio sea menor que el precio maximo que el usuario esta dispuesto a pagar 
+	const apartments = await Apartment.find({ price: { $lte: maxPrice } });
+	//Pasar estos apartamentos ya filtrados a vista
+
+
+	res.render('home', {
+		apartments
+	});
+};
+
 module.exports = {
 	getApartments,
-	getApartmentDetails
-}
+	getApartmentDetails,
+	searchApartments
+};
