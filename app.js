@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const path = require('path');
 const methodOverride = require('method-override'); // To handle DELETE and PUT methods via forms
 
 dotenv.config();
@@ -14,6 +15,7 @@ const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 
 // Session setup

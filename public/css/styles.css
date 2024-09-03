@@ -1,0 +1,104 @@
+body {
+	font-family: "Poppins", sans-serif;
+	background-color: #f8f9fa;
+	margin: 0;
+	padding: 0;
+}
+
+/* Navbar Styling */
+.navbar {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+	font-weight: 600;
+	color: #0d6efd !important;
+}
+
+/* Card Styling */
+.card {
+	border-radius: 10px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: transform 0.3s;
+}
+
+.card:hover {
+	transform: translateY(-5px);
+}
+
+.card-img-top {
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	object-fit: cover;
+	height: 200px;
+}
+
+/* Button Styling */
+.btn-primary {
+	background-color: #0d6efd;
+	border: none;
+}
+
+.btn-primary:hover {
+	background-color: #0b5ed7;
+}
+
+.btn-secondary {
+	background-color: #6c757d;
+	border: none;
+}
+
+.btn-secondary:hover {
+	background-color: #5a6268;
+}
+
+.btn-danger {
+	background-color: #dc3545;
+	border: none;
+}
+
+.btn-danger:hover {
+	background-color: #c82333;
+}
+
+/* Container and Heading Styling */
+.container h1 {
+	font-size: 2.5rem;
+	font-weight: 600;
+	margin-bottom: 1.5rem;
+}
+
+.container .row {
+	gap: 1.5rem;
+}
+
+/* Form Styling */
+form label {
+	font-weight: 500;
+}
+
+form .form-control {
+	border-radius: 5px;
+	box-shadow: none;
+	border: 1px solid #ced4da;
+}
+
+form .form-control:focus {
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+	border-color: #0d6efd;
+}
+
+form button {
+	border-radius: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.card-img-top {
+		height: 150px;
+	}
+
+	.container h1 {
+		font-size: 2rem;
+	}
+}
