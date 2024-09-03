@@ -16,18 +16,49 @@ const postLogin = async (req, res) => {
 			return res.status(401).send('Неправильное имя пользователя или пароль.');
 		}
 
-		// Диагностика проверки пароля при входе
-		console.log(`Checking password: ${password} against hash: ${user.password}`);
 		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch) {
 			return res.status(401).send('Неправильное имя пользователя или пароль.');
 		}
 
 		req.session.isAdmin = user.isAdmin;
+		req.session.userId = user._id;
 		res.redirect('/');
 	} catch (error) {
 		console.error('Ошибка входа:', error);
 		res.status(500).send('Ошибка входа.');
+	}
+};
+
+// Отображение формы регистрации
+const getRegister = (req, res) => {
+	res.render('register');
+};
+
+// Обработка регистрации
+const postRegister = async (req, res) => {
+	const { username, password } = req.body;
+
+	try {
+		const existingUser = await User.findOne({ username });
+		if (existingUser) {
+			return res.status(400).send('Имя пользователя уже занято.');
+		}
+
+		const hashedPassword = await bcrypt.hash(password, 10);
+
+		const newUser = new User({
+			username,
+			password: hashedPassword,
+			isAdmin: false // Обычные пользователи не будут администраторами
+		});
+
+		await newUser.save();
+		req.session.userId = newUser._id;
+		res.redirect('/');
+	} catch (error) {
+		console.error('Ошибка регистрации:', error);
+		res.status(500).send('Ошибка регистрации.');
 	}
 };
 
@@ -40,5 +71,7 @@ const logout = (req, res) => {
 module.exports = {
 	getLogin,
 	postLogin,
+	getRegister,
+	postRegister,
 	logout
 };

@@ -29,6 +29,7 @@ app.use(morgan('tiny'));
 // Middleware для передачи переменной isAdmin во все представления
 app.use((req, res, next) => {
 	res.locals.isAdmin = req.session.isAdmin || false;
+	res.locals.userId = req.session.userId || null;
 	next();
 });
 

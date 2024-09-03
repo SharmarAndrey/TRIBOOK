@@ -13,4 +13,7 @@ router.get('/login', authControllers.getLogin);
 router.post('/login', authControllers.postLogin);
 router.get('/logout', authControllers.logout);
 
+router.get('/register', authControllers.getRegister);
+router.post('/register', authControllers.postRegister);
+
 module.exports = router;
