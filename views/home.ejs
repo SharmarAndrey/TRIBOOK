@@ -4,31 +4,12 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Apartment List</title>
+	<title>Home</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
 </head>
 
 <body>
 	<main class="container">
-		<form method="GET" action="/search">
-			<label for="maxPersons">Number of Travelers:</label>
-			<input type="number" id="maxPersons" name="maxPersons" placeholder="Enter number of persons">
-
-			<label for="maxPrice">Maximum Price per Night:</label>
-			<input type="number" id="maxPrice" name="maxPrice" placeholder="Enter max price">
-
-			<label for="city">City:</label>
-			<input type="text" id="city" name="city" placeholder="Enter city">
-
-			<label for="startDate">Start Date:</label>
-			<input type="date" id="startDate" name="startDate">
-
-			<label for="endDate">End Date:</label>
-			<input type="date" id="endDate" name="endDate">
-
-			<button type="submit">Search</button>
-		</form>
-
 		<h1>Available Apartments List</h1>
 		<ul>
 			<% apartments.forEach(apartment=> { %>
@@ -48,8 +29,8 @@
 							<ul>
 								<% apartment.availableDates.forEach(dateRange=> { %>
 									<li>
-										<%= new Date(dateRange.startDate).toLocaleDateString() %> - <%= new
-												Date(dateRange.endDate).toLocaleDateString() %>
+										<%= new Date(dateRange.startDate).toLocaleDateString() %> -
+											<%= new Date(dateRange.endDate).toLocaleDateString() %>
 									</li>
 									<% }) %>
 							</ul>
@@ -61,38 +42,17 @@
 										width="200">
 					</a>
 
-					<div class="actions">
-
-						<form action="/admin/apartment/<%= apartment._id %>/edit" method="GET" style="display:inline;">
-							<button type="submit">Edit</button>
-						</form>
-
-					</div>
-
-					<div class="services">
-						<% if(apartment.services.wifi) { %>
-							<img src="/icons/wifi-icon.png" alt="WiFi" title="WiFi" width="20">
-							<% } %>
-								<% if(apartment.services.airConditioner) { %>
-									<img src="/icons/air-conditioner-icon.png" alt="Air Conditioner"
-										title="Air Conditioner" width="20">
-									<% } %>
-										<% if(apartment.services.kitchen) { %>
-											<img src="/icons/kitchen-icon.png" alt="Kitchen" title="Kitchen" width="20">
-											<% } %>
-												<% if(apartment.services.disability) { %>
-													<img src="/icons/disability-icon.png" alt="Disability Access"
-														title="Disability Access" width="20">
-													<% } %>
-														<% if(apartment.services.heater) { %>
-															<img src="/icons/heater-icon.png" alt="Heater"
-																title="Heater" width="20">
-															<% } %>
-																<% if(apartment.services.tv) { %>
-																	<img src="/icons/tv-icon.png" alt="Television"
-																		title="Television" width="20">
-																	<% } %>
-					</div>
+					<% if (isAdmin) { %>
+						<div class="actions">
+							<form action="/admin/apartment/<%= apartment._id %>/edit" method="GET"
+								style="display:inline;">
+								<button type="submit">Edit</button>
+							</form>
+							<form action="/admin/apartment/<%= apartment._id %>" method="POST" style="display:inline;">
+								<button type="submit">Delete</button>
+							</form>
+						</div>
+						<% } %>
 				</li>
 				<% }) %>
 		</ul>

@@ -110,6 +110,19 @@
 
 										<button type="submit">Reserve</button>
 									</form>
+
+									<% if (isAdmin) { %>
+										<div class="actions">
+											<form action="/admin/apartment/<%= apartment._id %>/edit" method="GET"
+												style="display:inline;">
+												<button type="submit">Edit</button>
+											</form>
+											<form action="/admin/apartment/<%= apartment._id %>" method="POST"
+												style="display:inline;">
+												<button type="submit">Delete</button>
+											</form>
+										</div>
+										<% } %>
 	</main>
 </body>
 
