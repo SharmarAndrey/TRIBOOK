@@ -13,16 +13,17 @@ const postLogin = async (req, res) => {
 	try {
 		const user = await User.findOne({ username });
 		if (!user) {
-			return res.status(401).send('Неправильное имя пользователя или пароль.');
+			return res.status(401).send('Invalid username or password.');
 		}
 
 		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch) {
-			return res.status(401).send('Неправильное имя пользователя или пароль.');
+			return res.status(401).send('Invalid username or password.');
 		}
 
 		req.session.isAdmin = user.isAdmin;
 		req.session.userId = user._id;
+		req.session.username = user.username; // Store the username in the session
 		res.redirect('/');
 	} catch (error) {
 		console.error('Ошибка входа:', error);

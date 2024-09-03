@@ -6,9 +6,50 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Add New Apartment</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+	<link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/">Apartment Rental</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ms-auto">
+					<% if (!isAuthenticated) { %>
+						<li class="nav-item">
+							<a class="nav-link" href="/login">Login</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/register">Register</a>
+						</li>
+						<% } else { %>
+							<li class="nav-item">
+								<span class="navbar-text">Hello, <%= username %>!</span>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/logout">Logout</a>
+							</li>
+							<% if (isAdmin) { %>
+								<li class="nav-item">
+									<a class="nav-link" href="/admin/apartment/new-apartment">New Apartment</a>
+								</li>
+								<% } %>
+									<% } %>
+										<!-- Dark Mode Toggle -->
+										<li class="nav-item">
+											<div id="darkModeToggle" class="dark-mode-toggle">
+												<img src="https://cdn-icons-png.flaticon.com/512/3073/3073665.png"
+													alt="Toggle Dark Mode" width="32px">
+											</div>
+										</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 	<main class="container">
 		<h1>Add New Apartment</h1>
 		<form action="/admin/apartment/new-apartment" method="POST">

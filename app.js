@@ -36,6 +36,7 @@ app.use((req, res, next) => {
 	res.locals.isAuthenticated = req.session.userId ? true : false; // User authentication check
 	res.locals.isAdmin = req.session.isAdmin || false; // Admin rights check
 	res.locals.userId = req.session.userId || null; // Pass userId to views
+	res.locals.username = req.session.username || '';
 	next();
 });
 

@@ -1,46 +1,97 @@
+/* styles.css */
+
+/* Font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+/* Base Styling */
 body {
 	font-family: "Poppins", sans-serif;
-	background-color: #f8f9fa;
+	background-color: #f4f4f9;
+	color: #333;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease;
 	margin: 0;
 	padding: 0;
 }
 
-/* Navbar Styling */
+/* Dark Mode */
+body.dark-mode {
+	background-color: #181818;
+	color: #f1f1f1;
+}
+
+/* Navbar */
 .navbar {
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	background-color: #ffffff;
+	transition: background-color 0.3s ease;
+}
+
+.navbar.dark-mode {
+	background-color: #282828;
 }
 
 .navbar-brand {
 	font-weight: 600;
-	color: #0d6efd !important;
+	font-size: 1.5rem;
+	color: #007bff !important;
 }
 
 /* Card Styling */
 .card {
-	border-radius: 10px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	transition: transform 0.3s;
+	border-radius: 12px;
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+	transition:
+		transform 0.3s,
+		box-shadow 0.3s;
+	overflow: hidden;
+	background-color: #ffffff;
+	transition: background-color 0.3s ease;
 }
 
 .card:hover {
-	transform: translateY(-5px);
+	transform: translateY(-10px);
+	box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card-img-top {
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
+	border-radius: 12px 12px 0 0;
 	object-fit: cover;
-	height: 200px;
+	height: 220px;
 }
 
-/* Button Styling */
+.card-body {
+	padding: 20px;
+}
+
+.card-title {
+	font-weight: 600;
+	font-size: 1.25rem;
+}
+
+.card.dark-mode {
+	background-color: #242424;
+}
+
+/* Buttons */
+.btn {
+	padding: 0.6rem 1.2rem;
+	border-radius: 5px;
+	font-size: 1rem;
+	transition:
+		background-color 0.3s ease,
+		box-shadow 0.3s ease;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 .btn-primary {
-	background-color: #0d6efd;
+	background-color: #007bff;
 	border: none;
 }
 
 .btn-primary:hover {
-	background-color: #0b5ed7;
+	background-color: #0056b3;
 }
 
 .btn-secondary {
@@ -48,57 +99,97 @@ body {
 	border: none;
 }
 
-.btn-secondary:hover {
-	background-color: #5a6268;
-}
-
 .btn-danger {
 	background-color: #dc3545;
 	border: none;
 }
 
-.btn-danger:hover {
-	background-color: #c82333;
+/* Hover & Focus Effects */
+.btn:hover,
+.form-control:focus {
+	box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+	transform: scale(1.03);
 }
 
-/* Container and Heading Styling */
-.container h1 {
-	font-size: 2.5rem;
-	font-weight: 600;
-	margin-bottom: 1.5rem;
-}
-
-.container .row {
-	gap: 1.5rem;
-}
-
-/* Form Styling */
-form label {
-	font-weight: 500;
-}
-
-form .form-control {
+/* Form Input */
+.form-control {
+	padding: 0.8rem;
 	border-radius: 5px;
-	box-shadow: none;
-	border: 1px solid #ced4da;
+	border: 1px solid #ddd;
 }
 
-form .form-control:focus {
-	box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
-	border-color: #0d6efd;
+.form-control:focus {
+	outline: none;
+	border-color: #007bff;
 }
 
-form button {
-	border-radius: 5px;
+/* Animations */
+.fade-in {
+	opacity: 0;
+	animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+	to {
+		opacity: 1;
+	}
+}
+
+/* Dark Mode Toggle */
+
+.dark-mode-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	margin-left: 15px;
+	background: #f8f9fa;
+	border-radius: 50%;
+	padding: 8px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+	transition: background-color 0.3s ease;
+}
+
+.dark-mode-toggle img {
+	width: 28px;
+	height: 28px;
+	transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle:hover {
+	background-color: #e2e6ea;
+}
+
+.dark-mode-toggle:hover img {
+	transform: rotate(20deg);
+}
+
+.dark-mode-toggle:hover {
+	background-color: #e2e6ea;
+}
+
+/* Dark Mode for Components */
+.dark-mode .btn {
+	background-color: #343a40;
+}
+
+.dark-mode .card {
+	background-color: #333;
+}
+
+.dark-mode .form-control {
+	background-color: #444;
+	color: white;
+	border-color: #555;
+}
+
+.dark-mode .form-control:focus {
+	border-color: #007bff;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
 	.card-img-top {
-		height: 150px;
-	}
-
-	.container h1 {
-		font-size: 2rem;
+		height: 160px;
 	}
 }
