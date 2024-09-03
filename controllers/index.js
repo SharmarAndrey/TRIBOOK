@@ -1,17 +1,8 @@
 const Apartment = require('../models/apartment.model');
 
-Apartment.updateMany({}, { $set: { isActive: true } })
-/* 	.then(result => {
-		console.log('Update successful:', result);
-	})
-	.catch(err => {
-		console.error('Update failed:', err);
-	}); */
-
 const getApartments = async (req, res) => {
 	try {
-		const apartments = await Apartment.find(/* { isActive: true } */);
-		//console.log('Fetched Apartments:', apartments);
+		const apartments = await Apartment.find({ isActive: true });
 		res.render('home', { apartments });
 	} catch (error) {
 		console.error('Error fetching apartments:', error);
@@ -66,8 +57,53 @@ const searchApartments = async (req, res) => {
 	}
 };
 
+const createNewReservation = async (req, res) => {
+	try {
+		const { apartmentId, startDate, endDate } = req.body;
+		const start = new Date(startDate);
+		const end = new Date(endDate);
+
+		if (start >= end) {
+			return res.status(400).json({ message: 'Дата начала должна быть раньше даты окончания.' });
+		}
+
+		const apartment = await Apartment.findById(apartmentId);
+		if (!apartment) {
+			return res.status(404).json({ message: 'Квартира не найдена.' });
+		}
+
+		// Проверка доступности запрашиваемых дат
+		const isAvailable = apartment.availableDates.some(availableRange => {
+			return (start >= availableRange.startDate && end <= availableRange.endDate);
+		});
+
+		if (!isAvailable) {
+			return res.status(400).json({ message: 'Квартира недоступна на выбранные даты.' });
+		}
+
+		// Если доступно, создаем новую запись в availableDates и уменьшаем доступный диапазон
+		apartment.availableDates = apartment.availableDates.map(availableRange => {
+			if (start >= availableRange.startDate && end <= availableRange.endDate) {
+				return [
+					{ startDate: availableRange.startDate, endDate: start },  // диапазон до начала новой резервации
+					{ startDate: end, endDate: availableRange.endDate }        // диапазон после окончания новой резервации
+				].filter(range => range.startDate < range.endDate);          // удаляем пустые диапазоны
+			}
+			return availableRange;
+		}).flat();
+
+		await apartment.save();
+
+		res.status(201).json({ message: 'Резервация успешно создана.' });
+	} catch (error) {
+		console.error('Ошибка при создании резервации:', error);
+		res.status(500).json({ message: 'Ошибка при создании резервации.', error: error.message });
+	}
+};
+
 module.exports = {
 	getApartments,
 	getApartmentDetails,
-	searchApartments
+	searchApartments,
+	createNewReservation
 };

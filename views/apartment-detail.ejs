@@ -15,53 +15,101 @@
 			<%= apartment.title %>
 		</h2>
 
-		<% const details={ "Description" : apartment.description, "Rules" : apartment.rules, "Rooms" :
-			apartment.rooms, "Beds" : apartment.beds, "Bathrooms" : apartment.bathrooms, "Price per night" :
-			apartment.price ? `$${apartment.price}` : null, "Size" : apartment.size ? `${apartment.size} sqm` :
-			null, "Max Persons" : apartment.maxPersons, "Province" : apartment.province, "City" :
-			apartment.city, "GPS Coordinates" : apartment.gps }; %>
+		<p><strong>Description:</strong>
+			<%= apartment.description %>
+		</p>
+		<p><strong>Rules:</strong>
+			<%= apartment.rules %>
+		</p>
+		<p><strong>Rooms:</strong>
+			<%= apartment.rooms %>
+		</p>
+		<p><strong>Beds:</strong>
+			<%= apartment.beds %>
+		</p>
+		<p><strong>Bathrooms:</strong>
+			<%= apartment.bathrooms %>
+		</p>
+		<p><strong>Price per night:</strong> $<%= apartment.price %>
+		</p>
+		<p><strong>Size:</strong>
+			<%= apartment.size %> sqm
+		</p>
+		<p><strong>Max Persons:</strong>
+			<%= apartment.maxPersons %>
+		</p>
+		<p><strong>Province:</strong>
+			<%= apartment.province %>
+		</p>
+		<p><strong>City:</strong>
+			<%= apartment.city %>
+		</p>
+		<p><strong>GPS Coordinates:</strong>
+			<%= apartment.gps %>
+		</p>
 
-			<% for (const [key, value] of Object.entries(details)) { %>
-				<% if (value) { %>
-					<p><strong>
-							<%= key %>:
-						</strong>
-						<%= value %>
-					</p>
-					<% } %>
+		<% if (apartment.mainPhoto) { %>
+			<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="400">
+			<% } %>
+
+				<h3>Amenities:</h3>
+				<ul>
+					<% if (apartment.services.wifi) { %>
+						<li>WiFi</li>
 						<% } %>
+							<% if (apartment.services.airConditioner) { %>
+								<li>Air Conditioner</li>
+								<% } %>
+									<% if (apartment.services.kitchen) { %>
+										<li>Kitchen</li>
+										<% } %>
+											<% if (apartment.services.disability) { %>
+												<li>Disability Access</li>
+												<% } %>
+													<% if (apartment.services.heater) { %>
+														<li>Heater</li>
+														<% } %>
+															<% if (apartment.services.tv) { %>
+																<li>TV</li>
+																<% } %>
+				</ul>
 
-							<% if (apartment.mainPhoto) { %>
-								<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo" width="400">
+				<% if (apartment.photos && apartment.photos.length> 0) { %>
+					<h3>Photos:</h3>
+					<ul>
+						<% apartment.photos.forEach(photo=> { %>
+							<li>
+								<img src="<%= photo %>" alt="Apartment photo" width="200">
+							</li>
+							<% }) %>
+					</ul>
+					<% } %>
+
+						<h3>Available Dates:</h3>
+						<% if (apartment.availableDates && apartment.availableDates.length> 0) { %>
+							<ul>
+								<% apartment.availableDates.forEach(dateRange=> { %>
+									<li>
+										<%= new Date(dateRange.startDate).toLocaleDateString() %> -
+											<%= new Date(dateRange.endDate).toLocaleDateString() %>
+									</li>
+									<% }) %>
+							</ul>
+							<% } else { %>
+								<p>No available dates listed</p>
 								<% } %>
 
-									<h3>Amenities:</h3>
-									<ul>
-										<% const amenities={ "WiFi" : apartment.services.wifi, "Air Conditioner" :
-											apartment.services.airConditioner, "Kitchen" :
-											apartment.services.kitchen, "Disability Access" :
-											apartment.services.disability, "Heater" :
-											apartment.services.heater, "Television" : apartment.services.tv }; %>
+									<h3>Book this Apartment:</h3>
+									<form action="/apartment/new-reservation" method="POST">
+										<input type="hidden" name="apartmentId" value="<%= apartment._id %>">
+										<label for="startDate">Start Date:</label>
+										<input type="date" id="startDate" name="startDate" required>
 
-											<% for (const [amenity, available] of Object.entries(amenities)) { %>
-												<% if (available) { %>
-													<li>
-														<%= amenity %>
-													</li>
-													<% } %>
-														<% } %>
-									</ul>
+										<label for="endDate">End Date:</label>
+										<input type="date" id="endDate" name="endDate" required>
 
-									<% if (apartment.photos && apartment.photos.length> 0) { %>
-										<h3>Photos:</h3>
-										<ul>
-											<% apartment.photos.forEach(photo=> { %>
-												<li>
-													<img src="<%= photo %>" alt="Apartment photo" width="200">
-												</li>
-												<% }) %>
-										</ul>
-										<% } %>
+										<button type="submit">Reserve</button>
+									</form>
 	</main>
 </body>
 
