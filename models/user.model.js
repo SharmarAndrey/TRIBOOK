@@ -8,7 +8,7 @@ const userSchema = new Schema({
 	isPasswordHashed: { type: Boolean, default: false }
 });
 
-// Хэширование пароля перед сохранением только в том случае, если он не был хэширован ранее
+// Hash password before saving, only if not hashed yet
 userSchema.pre('save', async function (next) {
 	if (this.isPasswordHashed) {
 		return next();
@@ -17,7 +17,7 @@ userSchema.pre('save', async function (next) {
 	try {
 		const salt = await bcrypt.genSalt(10);
 		this.password = await bcrypt.hash(this.password, salt);
-		this.isPasswordHashed = true;  // Устанавливаем флаг, что пароль был хэширован
+		this.isPasswordHashed = true;
 		next();
 	} catch (error) {
 		next(error);

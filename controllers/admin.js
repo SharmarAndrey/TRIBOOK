@@ -1,11 +1,9 @@
 const Apartment = require('../models/apartment.model.js');
 
-// Функция для отображения формы добавления новой квартиры
 const getNewApartmentForm = (req, res) => {
 	res.render('new-apartment.ejs');
 }
 
-// Функция для создания новой квартиры
 const createNewApartment = async (req, res) => {
 	try {
 		const services = {
@@ -26,7 +24,7 @@ const createNewApartment = async (req, res) => {
 			rooms: req.body.rooms,
 			beds: req.body.beds,
 			bathrooms: req.body.bathrooms,
-			photos: req.body.photos.split(','),
+			photos: req.body.photos ? req.body.photos.split(',') : [],
 			mainPhoto: req.body.mainPhoto,
 			price: req.body.price,
 			maxPersons: req.body.maxPersons,
@@ -39,14 +37,12 @@ const createNewApartment = async (req, res) => {
 		});
 
 		await newApartment.save();
-
 		res.status(201).json({ message: 'Apartment created successfully!' });
 	} catch (error) {
 		res.status(500).json({ message: 'Failed to create apartment', error: error.message });
 	}
 }
 
-// Функция для отображения формы редактирования квартиры
 const getEditApartmentForm = async (req, res) => {
 	try {
 		const apartment = await Apartment.findById(req.params.id);
@@ -59,7 +55,6 @@ const getEditApartmentForm = async (req, res) => {
 	}
 };
 
-// Функция для обновления квартиры
 const updateApartment = async (req, res) => {
 	try {
 		const apartmentData = {
@@ -69,7 +64,7 @@ const updateApartment = async (req, res) => {
 			rooms: req.body.rooms,
 			beds: req.body.beds,
 			bathrooms: req.body.bathrooms,
-			photos: req.body.photos.split(','),
+			photos: req.body.photos ? req.body.photos.split(',') : [],
 			mainPhoto: req.body.mainPhoto,
 			price: req.body.price,
 			maxPersons: req.body.maxPersons,
@@ -95,7 +90,6 @@ const updateApartment = async (req, res) => {
 	}
 }
 
-// Функция для удаления квартиры
 const deleteApartment = async (req, res) => {
 	try {
 		await Apartment.findByIdAndDelete(req.params.id);
@@ -105,7 +99,6 @@ const deleteApartment = async (req, res) => {
 	}
 }
 
-// Функция для деактивации квартиры
 const deactivateApartment = async (req, res) => {
 	try {
 		await Apartment.findByIdAndUpdate(req.params.id, { isActive: false });

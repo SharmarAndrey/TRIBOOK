@@ -72,7 +72,7 @@ const createNewReservation = async (req, res) => {
 			return res.status(404).json({ message: 'Квартира не найдена.' });
 		}
 
-		// Проверка доступности запрашиваемых дат
+		// Check availability of requested dates
 		const isAvailable = apartment.availableDates.some(availableRange => {
 			return (start >= availableRange.startDate && end <= availableRange.endDate);
 		});
@@ -81,13 +81,13 @@ const createNewReservation = async (req, res) => {
 			return res.status(400).json({ message: 'Квартира недоступна на выбранные даты.' });
 		}
 
-		// Если доступно, создаем новую запись в availableDates и уменьшаем доступный диапазон
+		// If available, create a new entry in availableDates and reduce the available range
 		apartment.availableDates = apartment.availableDates.map(availableRange => {
 			if (start >= availableRange.startDate && end <= availableRange.endDate) {
 				return [
-					{ startDate: availableRange.startDate, endDate: start },  // диапазон до начала новой резервации
-					{ startDate: end, endDate: availableRange.endDate }        // диапазон после окончания новой резервации
-				].filter(range => range.startDate < range.endDate);          // удаляем пустые диапазоны
+					{ startDate: availableRange.startDate, endDate: start },  // Range before new reservation
+					{ startDate: end, endDate: availableRange.endDate }        // Range after new reservation
+				].filter(range => range.startDate < range.endDate);          // Remove empty ranges
 			}
 			return availableRange;
 		}).flat();

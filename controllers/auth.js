@@ -1,12 +1,12 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
-// Отображение формы входа
+// Display login form
 const getLogin = (req, res) => {
 	res.render('login');
 };
 
-// Обработка входа
+// Handle login
 const postLogin = async (req, res) => {
 	const { username, password } = req.body;
 
@@ -30,12 +30,12 @@ const postLogin = async (req, res) => {
 	}
 };
 
-// Отображение формы регистрации
+// Display registration form
 const getRegister = (req, res) => {
 	res.render('register');
 };
 
-// Обработка регистрации
+// Handle registration
 const postRegister = async (req, res) => {
 	const { username, password } = req.body;
 
@@ -50,7 +50,7 @@ const postRegister = async (req, res) => {
 		const newUser = new User({
 			username,
 			password: hashedPassword,
-			isAdmin: false // Обычные пользователи не будут администраторами
+			isAdmin: false // Regular users are not admins
 		});
 
 		await newUser.save();
@@ -62,7 +62,7 @@ const postRegister = async (req, res) => {
 	}
 };
 
-// Выход
+// Handle logout
 const logout = (req, res) => {
 	req.session.destroy();
 	res.redirect('/');

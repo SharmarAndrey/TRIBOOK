@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const methodOverride = require('method-override'); // To handle DELETE and PUT methods via forms
 
 dotenv.config();
 
@@ -15,21 +16,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-// Настройка сессий
+// Session setup
 app.use(session({
 	secret: 'yourSecretKey',
 	resave: false,
 	saveUninitialized: true
 }));
 
+app.use(methodOverride('_method')); // Method override for DELETE and PUT
+
 const PORT = process.env.PORT || 4000;
 
 app.use(morgan('tiny'));
 
-// Middleware для передачи переменной isAdmin во все представления
+// Middleware to pass session variables to views
 app.use((req, res, next) => {
-	res.locals.isAdmin = req.session.isAdmin || false;
-	res.locals.userId = req.session.userId || null;
+	res.locals.isAuthenticated = req.session.userId ? true : false; // User authentication check
+	res.locals.isAdmin = req.session.isAdmin || false; // Admin rights check
+	res.locals.userId = req.session.userId || null; // Pass userId to views
 	next();
 });
 

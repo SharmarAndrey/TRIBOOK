@@ -5,82 +5,138 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Edit Apartment</title>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-	<main class="container">
+	<div class="container mt-5">
 		<h1>Edit Apartment</h1>
 		<form action="/admin/apartment/<%= apartment._id %>" method="POST">
-			<label for="title">Apartment Title</label>
-			<input type="text" id="title" name="title" value="<%= apartment.title %>" required>
+			<div class="mb-3">
+				<label for="title" class="form-label">Apartment Title</label>
+				<input type="text" id="title" name="title" value="<%= apartment.title %>" required class="form-control">
+			</div>
 
-			<label for="description">Description</label>
-			<textarea id="description" name="description" required><%= apartment.description %></textarea>
+			<div class="mb-3">
+				<label for="description" class="form-label">Description</label>
+				<textarea id="description" name="description" required
+					class="form-control"><%= apartment.description %></textarea>
+			</div>
 
-			<label for="rules">Rules</label>
-			<textarea id="rules" name="rules" required><%= apartment.rules %></textarea>
+			<div class="mb-3">
+				<label for="rules" class="form-label">Rules</label>
+				<textarea id="rules" name="rules" required class="form-control"><%= apartment.rules %></textarea>
+			</div>
 
-			<label for="rooms">Number of Rooms</label>
-			<input type="number" id="rooms" name="rooms" value="<%= apartment.rooms %>" required>
+			<div class="mb-3">
+				<label for="rooms" class="form-label">Number of Rooms</label>
+				<input type="number" id="rooms" name="rooms" value="<%= apartment.rooms %>" required
+					class="form-control">
+			</div>
 
-			<label for="beds">Number of Beds</label>
-			<input type="number" id="beds" name="beds" value="<%= apartment.beds %>" required>
+			<div class="mb-3">
+				<label for="beds" class="form-label">Number of Beds</label>
+				<input type="number" id="beds" name="beds" value="<%= apartment.beds %>" required class="form-control">
+			</div>
 
-			<label for="bathrooms">Number of Bathrooms</label>
-			<input type="number" id="bathrooms" name="bathrooms" value="<%= apartment.bathrooms %>" required>
+			<div class="mb-3">
+				<label for="bathrooms" class="form-label">Number of Bathrooms</label>
+				<input type="number" id="bathrooms" name="bathrooms" value="<%= apartment.bathrooms %>" required
+					class="form-control">
+			</div>
 
-			<label for="photos">Photo URLs (comma separated)</label>
-			<input type="text" id="photos" name="photos" value="<%= apartment.photos.join(',') %>" required>
+			<div class="mb-3">
+				<label for="photos" class="form-label">Photo URLs (comma separated)</label>
+				<input type="text" id="photos" name="photos" value="<%= apartment.photos.join(',') %>" required
+					class="form-control">
+			</div>
 
-			<label for="mainPhoto">Main Photo URL</label>
-			<input type="url" id="mainPhoto" name="mainPhoto" value="<%= apartment.mainPhoto %>" required>
+			<div class="mb-3">
+				<label for="mainPhoto" class="form-label">Main Photo URL</label>
+				<input type="url" id="mainPhoto" name="mainPhoto" value="<%= apartment.mainPhoto %>" required
+					class="form-control">
+			</div>
 
-			<label for="price">Price per Day</label>
-			<input type="number" id="price" name="price" value="<%= apartment.price %>" required>
+			<div class="mb-3">
+				<label for="price" class="form-label">Price per Day</label>
+				<input type="number" id="price" name="price" value="<%= apartment.price %>" required
+					class="form-control">
+			</div>
 
-			<label for="maxPersons">Max Persons</label>
-			<input type="number" id="maxPersons" name="maxPersons" value="<%= apartment.maxPersons %>" required>
+			<div class="mb-3">
+				<label for="maxPersons" class="form-label">Max Persons</label>
+				<input type="number" id="maxPersons" name="maxPersons" value="<%= apartment.maxPersons %>" required
+					class="form-control">
+			</div>
 
-			<label for="size">Size (in sqm)</label>
-			<input type="number" id="size" name="size" value="<%= apartment.size %>" required>
+			<div class="mb-3">
+				<label for="size" class="form-label">Size (in sqm)</label>
+				<input type="number" id="size" name="size" value="<%= apartment.size %>" required class="form-control">
+			</div>
 
 			<fieldset>
 				<legend>Services</legend>
-				<label for="wifi"><input type="checkbox" id="wifi" name="wifi" <%=apartment.services.wifi ? 'checked'
-						: '' %>> WiFi</label>
-				<label for="airConditioner"><input type="checkbox" id="airConditioner" name="airConditioner"
-						<%=apartment.services.airConditioner ? 'checked' : '' %>> Air Conditioner</label>
-				<label for="kitchen"><input type="checkbox" id="kitchen" name="kitchen" <%=apartment.services.kitchen
-						? 'checked' : '' %>> Kitchen</label>
-				<label for="disability"><input type="checkbox" id="disability" name="disability"
-						<%=apartment.services.disability ? 'checked' : '' %>> Disability Access</label>
-				<label for="heater"><input type="checkbox" id="heater" name="heater" <%=apartment.services.heater
-						? 'checked' : '' %>> Heater</label>
-				<label for="tv"><input type="checkbox" id="tv" name="tv" <%=apartment.services.tv ? 'checked' : '' %>>
-					TV</label>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="wifi" name="wifi" <%=apartment.services.wifi
+						? 'checked' : '' %>>
+					<label class="form-check-label" for="wifi">WiFi</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="airConditioner" name="airConditioner"
+						<%=apartment.services.airConditioner ? 'checked' : '' %>>
+					<label class="form-check-label" for="airConditioner">Air Conditioner</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="kitchen" name="kitchen"
+						<%=apartment.services.kitchen ? 'checked' : '' %>>
+					<label class="form-check-label" for="kitchen">Kitchen</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="disability" name="disability"
+						<%=apartment.services.disability ? 'checked' : '' %>>
+					<label class="form-check-label" for="disability">Disability Access</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="heater" name="heater"
+						<%=apartment.services.heater ? 'checked' : '' %>>
+					<label class="form-check-label" for="heater">Heater</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="tv" name="tv" <%=apartment.services.tv
+						? 'checked' : '' %>>
+					<label class="form-check-label" for="tv">TV</label>
+				</div>
 			</fieldset>
 
-			<label for="province">Province</label>
-			<input type="text" id="province" name="province" value="<%= apartment.province %>" required>
+			<div class="mb-3">
+				<label for="province" class="form-label">Province</label>
+				<input type="text" id="province" name="province" value="<%= apartment.province %>" required
+					class="form-control">
+			</div>
 
-			<label for="city">City</label>
-			<input type="text" id="city" name="city" value="<%= apartment.city %>" required>
+			<div class="mb-3">
+				<label for="city" class="form-label">City</label>
+				<input type="text" id="city" name="city" value="<%= apartment.city %>" required class="form-control">
+			</div>
 
-			<label for="gps">GPS Coordinates</label>
-			<input type="text" id="gps" name="gps" value="<%= apartment.gps %>">
+			<div class="mb-3">
+				<label for="gps" class="form-label">GPS Coordinates</label>
+				<input type="text" id="gps" name="gps" value="<%= apartment.gps %>" class="form-control">
+			</div>
 
 			<fieldset>
 				<legend>Available Dates</legend>
-				<label for="startDate">Start Date:</label>
-				<input type="date" id="startDate" name="startDate">
+				<div class="mb-3">
+					<label for="startDate" class="form-label">Start Date:</label>
+					<input type="date" id="startDate" name="startDate" class="form-control">
+				</div>
+				<div class="mb-3">
+					<label for="endDate" class="form-label">End Date:</label>
+					<input type="date" id="endDate" name="endDate" class="form-control">
+				</div>
+				<button type="button" id="addDateRange" class="btn btn-secondary">Add Date Range</button>
 
-				<label for="endDate">End Date:</label>
-				<input type="date" id="endDate" name="endDate">
-
-				<button type="button" id="addDateRange">Add Date Range</button>
-
-				<ul id="dateRangesList">
+				<ul id="dateRangesList" class="list-unstyled mt-2">
 					<% apartment.availableDates.forEach(dateRange=> { %>
 						<li>
 							<%= new Date(dateRange.startDate).toLocaleDateString() %> to <%= new
@@ -92,10 +148,11 @@
 					value='<%= JSON.stringify(apartment.availableDates) %>'>
 			</fieldset>
 
-			<button type="submit">Update Apartment</button>
+			<button type="submit" class="btn btn-primary mt-3">Update Apartment</button>
 		</form>
-	</main>
+	</div>
 
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
 		document.getElementById('addDateRange').addEventListener('click', function () {
 			const startDate = document.getElementById('startDate').value;

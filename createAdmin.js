@@ -12,30 +12,30 @@ async function createAdminUser() {
 
 		const username = 'admin';
 
-		// Удаление существующего пользователя
+		// Remove existing user
 		await User.deleteOne({ username });
 
 		const password = 'admin';
 		const salt = await bcrypt.genSalt(10);
 		const hashedPassword = await bcrypt.hash(password, salt);
 
-		console.log('Generated hash:', hashedPassword); // Лог хэша
+		console.log('Generated hash:', hashedPassword);
 
 		const newUser = new User({
 			username,
-			password: hashedPassword,  // Использование уже хэшированного пароля
+			password: hashedPassword,  // Already hashed password
 			isAdmin: true,
-			isPasswordHashed: true  // Устанавливаем флаг, что пароль уже хэширован
+			isPasswordHashed: true
 		});
 
 		await newUser.save();
 		console.log('Admin user created successfully');
 
-		// Повторная проверка, что пользователь был сохранен
+		// Verify the saved user
 		const savedUser = await User.findOne({ username });
 		console.log('Saved user hash:', savedUser.password);
 
-		// Проверка пароля сразу после создания пользователя
+		// Verify password after creation
 		const isMatch = await bcrypt.compare(password, savedUser.password);
 		if (isMatch) {
 			console.log('Password check passed after creation.');

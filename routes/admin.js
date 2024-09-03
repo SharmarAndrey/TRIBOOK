@@ -3,7 +3,7 @@ const router = express.Router();
 
 const adminControllers = require('../controllers/admin.js');
 
-// Middleware для проверки прав администратора
+// Middleware to check admin rights
 function isAdmin(req, res, next) {
 	if (req.session.isAdmin) {
 		next();
