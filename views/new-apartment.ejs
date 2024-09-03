@@ -12,9 +12,8 @@
 	<main class="container">
 		<h1>Add New Apartment</h1>
 		<form action="/admin/apartment/new-apartment" method="POST">
-
 			<label for="title">Apartment Title</label>
-			<input type="text" id="title" name="title" required placeholder="Enter apartment title" minlength="3">
+			<input type="text" id="title" name="title" required placeholder="Enter apartment title">
 
 			<label for="description">Description</label>
 			<textarea id="description" name="description" required placeholder="Enter apartment description"></textarea>
@@ -36,8 +35,7 @@
 			<input type="text" id="photos" name="photos" required placeholder="Enter photo URLs separated by commas">
 
 			<label for="mainPhoto">Main Photo URL</label>
-			<input type="url" id="mainPhoto" name="mainPhoto" required placeholder="Enter URL of the main photo"
-				pattern="https?://.+">
+			<input type="url" id="mainPhoto" name="mainPhoto" required placeholder="Enter URL of the main photo">
 
 			<label for="price">Price per Day</label>
 			<input type="number" id="price" name="price" required placeholder="Enter price per night" min="1">
@@ -50,35 +48,14 @@
 
 			<fieldset>
 				<legend>Services</legend>
-				<label for="wifi">
-					<input type="checkbox" id="wifi" name="wifi">
-					WiFi
-				</label>
-
-				<label for="airConditioner">
-					<input type="checkbox" id="airConditioner" name="airConditioner">
-					Air Conditioner
-				</label>
-
-				<label for="kitchen">
-					<input type="checkbox" id="kitchen" name="kitchen">
-					Kitchen
-				</label>
-
-				<label for="disability">
-					<input type="checkbox" id="disability" name="disability">
-					Disability Access
-				</label>
-
-				<label for="heater">
-					<input type="checkbox" id="heater" name="heater">
-					Heater
-				</label>
-
-				<label for="tv">
-					<input type="checkbox" id="tv" name="tv">
-					TV
-				</label>
+				<label for="wifi"><input type="checkbox" id="wifi" name="wifi"> WiFi</label>
+				<label for="airConditioner"><input type="checkbox" id="airConditioner" name="airConditioner"> Air
+					Conditioner</label>
+				<label for="kitchen"><input type="checkbox" id="kitchen" name="kitchen"> Kitchen</label>
+				<label for="disability"><input type="checkbox" id="disability" name="disability"> Disability
+					Access</label>
+				<label for="heater"><input type="checkbox" id="heater" name="heater"> Heater</label>
+				<label for="tv"><input type="checkbox" id="tv" name="tv"> TV</label>
 			</fieldset>
 
 			<label for="province">Province</label>
@@ -90,7 +67,6 @@
 			<label for="gps">GPS Coordinates</label>
 			<input type="text" id="gps" name="gps" placeholder="Enter GPS coordinates">
 
-			<!-- New Section: Available Dates -->
 			<fieldset>
 				<legend>Available Dates</legend>
 				<label for="startDate">Start Date:</label>
@@ -105,12 +81,10 @@
 				<input type="hidden" id="availableDates" name="availableDates">
 			</fieldset>
 
-			<!-- Submit Button -->
 			<button type="submit">Add Apartment</button>
 		</form>
 	</main>
 
-	<!-- JavaScript directly embedded in the EJS file -->
 	<script>
 		document.getElementById('addDateRange').addEventListener('click', function () {
 			const startDate = document.getElementById('startDate').value;
@@ -127,7 +101,6 @@
 				currentDates.push({ startDate, endDate });
 				availableDatesInput.value = JSON.stringify(currentDates);
 
-				// Clear the date fields
 				document.getElementById('startDate').value = '';
 				document.getElementById('endDate').value = '';
 			} else {

@@ -10,7 +10,6 @@
 
 <body>
 	<main class="container">
-		<!-- Search Form -->
 		<form method="GET" action="/search">
 			<label for="maxPersons">Number of Travelers:</label>
 			<input type="number" id="maxPersons" name="maxPersons" placeholder="Enter number of persons">
@@ -44,8 +43,7 @@
 						<p>Max Persons: <%= apartment.maxPersons %>
 						</p>
 
-						<!-- Display available dates -->
-						<% if(apartment.availableDates && apartment.availableDates.length> 0) { %>
+						<% if (apartment.availableDates && apartment.availableDates.length> 0) { %>
 							<p>Available Dates:</p>
 							<ul>
 								<% apartment.availableDates.forEach(dateRange=> { %>
@@ -62,8 +60,16 @@
 									<img src="<%= apartment.mainPhoto %>" alt="<%= apartment.title %> photo"
 										width="200">
 					</a>
+
+					<div class="actions">
+
+						<form action="/admin/apartment/<%= apartment._id %>/edit" method="GET" style="display:inline;">
+							<button type="submit">Edit</button>
+						</form>
+
+					</div>
+
 					<div class="services">
-						<!-- Displaying service icons -->
 						<% if(apartment.services.wifi) { %>
 							<img src="/icons/wifi-icon.png" alt="WiFi" title="WiFi" width="20">
 							<% } %>

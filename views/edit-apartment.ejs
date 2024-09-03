@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit Apartment</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+</head>
+
+<body>
+	<main class="container">
+		<h1>Edit Apartment</h1>
+		<form action="/admin/apartment/<%= apartment._id %>" method="POST">
+			<label for="title">Apartment Title</label>
+			<input type="text" id="title" name="title" value="<%= apartment.title %>" required>
+
+			<label for="description">Description</label>
+			<textarea id="description" name="description" required><%= apartment.description %></textarea>
+
+			<label for="rules">Rules</label>
+			<textarea id="rules" name="rules" required><%= apartment.rules %></textarea>
+
+			<label for="rooms">Number of Rooms</label>
+			<input type="number" id="rooms" name="rooms" value="<%= apartment.rooms %>" required>
+
+			<label for="beds">Number of Beds</label>
+			<input type="number" id="beds" name="beds" value="<%= apartment.beds %>" required>
+
+			<label for="bathrooms">Number of Bathrooms</label>
+			<input type="number" id="bathrooms" name="bathrooms" value="<%= apartment.bathrooms %>" required>
+
+			<label for="photos">Photo URLs (comma separated)</label>
+			<input type="text" id="photos" name="photos" value="<%= apartment.photos.join(',') %>" required>
+
+			<label for="mainPhoto">Main Photo URL</label>
+			<input type="url" id="mainPhoto" name="mainPhoto" value="<%= apartment.mainPhoto %>" required>
+
+			<label for="price">Price per Day</label>
+			<input type="number" id="price" name="price" value="<%= apartment.price %>" required>
+
+			<label for="maxPersons">Max Persons</label>
+			<input type="number" id="maxPersons" name="maxPersons" value="<%= apartment.maxPersons %>" required>
+
+			<label for="size">Size (in sqm)</label>
+			<input type="number" id="size" name="size" value="<%= apartment.size %>" required>
+
+			<fieldset>
+				<legend>Services</legend>
+				<label for="wifi"><input type="checkbox" id="wifi" name="wifi" <%=apartment.services.wifi ? 'checked'
+						: '' %>> WiFi</label>
+				<label for="airConditioner"><input type="checkbox" id="airConditioner" name="airConditioner"
+						<%=apartment.services.airConditioner ? 'checked' : '' %>> Air Conditioner</label>
+				<label for="kitchen"><input type="checkbox" id="kitchen" name="kitchen" <%=apartment.services.kitchen
+						? 'checked' : '' %>> Kitchen</label>
+				<label for="disability"><input type="checkbox" id="disability" name="disability"
+						<%=apartment.services.disability ? 'checked' : '' %>> Disability Access</label>
+				<label for="heater"><input type="checkbox" id="heater" name="heater" <%=apartment.services.heater
+						? 'checked' : '' %>> Heater</label>
+				<label for="tv"><input type="checkbox" id="tv" name="tv" <%=apartment.services.tv ? 'checked' : '' %>>
+					TV</label>
+			</fieldset>
+
+			<label for="province">Province</label>
+			<input type="text" id="province" name="province" value="<%= apartment.province %>" required>
+
+			<label for="city">City</label>
+			<input type="text" id="city" name="city" value="<%= apartment.city %>" required>
+
+			<label for="gps">GPS Coordinates</label>
+			<input type="text" id="gps" name="gps" value="<%= apartment.gps %>">
+
+			<fieldset>
+				<legend>Available Dates</legend>
+				<label for="startDate">Start Date:</label>
+				<input type="date" id="startDate" name="startDate">
+
+				<label for="endDate">End Date:</label>
+				<input type="date" id="endDate" name="endDate">
+
+				<button type="button" id="addDateRange">Add Date Range</button>
+
+				<ul id="dateRangesList">
+					<% apartment.availableDates.forEach(dateRange=> { %>
+						<li>
+							<%= new Date(dateRange.startDate).toLocaleDateString() %> to <%= new
+									Date(dateRange.endDate).toLocaleDateString() %>
+						</li>
+						<% }) %>
+				</ul>
+				<input type="hidden" id="availableDates" name="availableDates"
+					value='<%= JSON.stringify(apartment.availableDates) %>'>
+			</fieldset>
+
+			<button type="submit">Update Apartment</button>
+		</form>
+	</main>
+
+	<script>
+		document.getElementById('addDateRange').addEventListener('click', function () {
+			const startDate = document.getElementById('startDate').value;
+			const endDate = document.getElementById('endDate').value;
+
+			if (startDate && endDate) {
+				const dateRangesList = document.getElementById('dateRangesList');
+				const listItem = document.createElement('li');
+				listItem.textContent = `${startDate} to ${endDate}`;
+				dateRangesList.appendChild(listItem);
+
+				const availableDatesInput = document.getElementById('availableDates');
+				const currentDates = availableDatesInput.value ? JSON.parse(availableDatesInput.value) : [];
+				currentDates.push({ startDate, endDate });
+				availableDatesInput.value = JSON.stringify(currentDates);
+
+				document.getElementById('startDate').value = '';
+				document.getElementById('endDate').value = '';
+			} else {
+				alert('Please select both a start date and an end date.');
+			}
+		});
+	</script>
+</body>
+
+</html>
