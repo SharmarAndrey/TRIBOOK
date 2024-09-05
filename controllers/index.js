@@ -1,4 +1,5 @@
 const Apartment = require('../models/apartment.model');
+const Reservation = require('../models/reservation.model'); // Assuming the Reservation model is already created
 
 const getApartments = async (req, res) => {
 	try {
@@ -23,34 +24,18 @@ const getApartmentDetails = async (req, res) => {
 	}
 };
 
-
 const searchApartments = async (req, res) => {
 	try {
-		const query = { isActive: true };
+		// Parse the maximum price from the query string
+		const { maxPrice } = req.query;
 
-		const maxPersons = parseInt(req.query.maxPersons, 10);
-		const maxPrice = parseFloat(req.query.maxPrice);
-		const city = req.query.city;
-		const startDate = req.query.startDate ? new Date(req.query.startDate) : null;
-		const endDate = req.query.endDate ? new Date(req.query.endDate) : null;
+		// Find apartments where the price is less than or equal to the maxPrice
+		const apartments = await Apartment.find({
+			isActive: true,
+			price: { $lte: maxPrice },
+		});
 
-		if (!isNaN(maxPersons)) {
-			query.maxPersons = { $gte: maxPersons };
-		}
-
-		if (!isNaN(maxPrice)) {
-			query.price = { $lte: maxPrice };
-		}
-
-		if (city) {
-			query.city = city;
-		}
-
-		if (startDate && endDate) {
-			query.availableDates = { $elemMatch: { startDate: { $lte: startDate }, endDate: { $gte: endDate } } };
-		}
-
-		const apartments = await Apartment.find(query);
+		// Render the 'home' view and pass the filtered apartments
 		res.render('home', { apartments });
 	} catch (error) {
 		console.error('Error searching for apartments:', error);
@@ -60,41 +45,39 @@ const searchApartments = async (req, res) => {
 
 const createNewReservation = async (req, res) => {
 	try {
-		const { email, startDate, endDate, apartmentId } = req.body;
+		const { apartmentId, startDate, endDate, email } = req.body;
+
+		// Ensure startDate is before endDate
 		const start = new Date(startDate);
 		const end = new Date(endDate);
-
 		if (start >= end) {
 			return res.status(400).json({ message: 'Start date must be earlier than end date.' });
 		}
+
 		// Find the apartment by its ID
 		const apartment = await Apartment.findById(apartmentId);
 		if (!apartment) {
 			return res.status(404).json({ message: 'Apartment not found.' });
 		}
 
-		// Check availability of requested dates
+		// Ensure apartment is available for the selected dates
 		const isAvailable = apartment.availableDates.some(availableRange => {
-			return (start >= availableRange.startDate && end <= availableRange.endDate);
+			return start >= availableRange.startDate && end <= availableRange.endDate;
 		});
-
 		if (!isAvailable) {
 			return res.status(400).json({ message: 'Apartment is not available for the selected dates.' });
 		}
 
-		// Update available date ranges
-		apartment.availableDates = apartment.availableDates.map(availableRange => {
-			if (start >= availableRange.startDate && end <= availableRange.endDate) {
-				return [
-					{ startDate: availableRange.startDate, endDate: start },  // Range before new reservation
-					{ startDate: end, endDate: availableRange.endDate }        // Range after new reservation
-				].filter(range => range.startDate < range.endDate);          // Remove empty ranges
-			}
-			return availableRange;
-		}).flat();
+		// Create the new reservation
+		const newReservation = await Reservation.create({
+			email,
+			startDate: start,
+			endDate: end,
+			apartment: apartment._id,  // Reference to the apartment
+		});
 
-		await apartment.save();
-		res.status(201).json({ message: 'Reservation created successfully.' });
+		// Respond with a confirmation
+		res.json({ message: 'Reservation created successfully!', reservation: newReservation });
 	} catch (error) {
 		console.error('Error creating reservation:', error);
 		res.status(500).json({ message: 'Error creating reservation.', error: error.message });
@@ -105,5 +88,5 @@ module.exports = {
 	getApartments,
 	getApartmentDetails,
 	searchApartments,
-	createNewReservation
+	createNewReservation,
 };

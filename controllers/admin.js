@@ -88,7 +88,7 @@ const updateApartment = async (req, res) => {
 		};
 
 		await Apartment.findByIdAndUpdate(req.params.id, apartmentData);
-		res.status(200).json({ message: 'Apartment updated successfully!' });
+		res.redirect('/');
 	} catch (error) {
 		res.status(500).json({ message: 'Failed to update apartment', error: error.message });
 	}
@@ -97,13 +97,36 @@ const updateApartment = async (req, res) => {
 // Delete apartment
 const deleteApartment = async (req, res) => {
 	try {
-		await Apartment.findByIdAndDelete(req.params.id);
-		// Redirect to the homepage after deletion
-		res.redirect('/');
+		const apartmentId = req.params.id;
+
+		// Log the ID to ensure it's correct
+		console.log(`Attempting to delete apartment with ID: ${apartmentId}`);
+
+		// Check if the apartment exists before trying to delete
+		const apartment = await Apartment.findById(apartmentId);
+		if (!apartment) {
+			console.log('Apartment not found');
+			return res.status(404).send('Apartment not found');
+		}
+
+		// Perform the delete operation
+		await Apartment.findByIdAndDelete(apartmentId);
+		console.log(`Apartment with ID: ${apartmentId} has been successfully deleted`);
+
+		// After deletion, redirect to the homepage
+		return res.redirect('/');
 	} catch (error) {
-		res.status(500).json({ message: 'Failed to delete apartment', error: error.message });
+		console.error('Error deleting apartment:', error);
+		return res.status(500).send('Error deleting apartment');
 	}
 };
+
+
+
+
+
+
+
 
 
 // Deactivate apartment
