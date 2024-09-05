@@ -60,14 +60,14 @@ const searchApartments = async (req, res) => {
 
 const createNewReservation = async (req, res) => {
 	try {
-		const { apartmentId, startDate, endDate, email } = req.body;
+		const { email, startDate, endDate, apartmentId } = req.body;
 		const start = new Date(startDate);
 		const end = new Date(endDate);
 
 		if (start >= end) {
 			return res.status(400).json({ message: 'Start date must be earlier than end date.' });
 		}
-
+		// Find the apartment by its ID
 		const apartment = await Apartment.findById(apartmentId);
 		if (!apartment) {
 			return res.status(404).json({ message: 'Apartment not found.' });
