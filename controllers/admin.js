@@ -1,9 +1,11 @@
 const Apartment = require('../models/apartment.model.js');
 
+// Get new apartment form
 const getNewApartmentForm = (req, res) => {
 	res.render('new-apartment.ejs');
-}
+};
 
+// Create new apartment
 const createNewApartment = async (req, res) => {
 	try {
 		const services = {
@@ -41,8 +43,9 @@ const createNewApartment = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: 'Failed to create apartment', error: error.message });
 	}
-}
+};
 
+// Get edit apartment form
 const getEditApartmentForm = async (req, res) => {
 	try {
 		const apartment = await Apartment.findById(req.params.id);
@@ -55,6 +58,7 @@ const getEditApartmentForm = async (req, res) => {
 	}
 };
 
+// Update apartment
 const updateApartment = async (req, res) => {
 	try {
 		const apartmentData = {
@@ -88,17 +92,21 @@ const updateApartment = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: 'Failed to update apartment', error: error.message });
 	}
-}
+};
 
+// Delete apartment
 const deleteApartment = async (req, res) => {
 	try {
 		await Apartment.findByIdAndDelete(req.params.id);
-		res.status(200).json({ message: 'Apartment deleted successfully!' });
+		// Redirect to the homepage after deletion
+		res.redirect('/');
 	} catch (error) {
 		res.status(500).json({ message: 'Failed to delete apartment', error: error.message });
 	}
-}
+};
 
+
+// Deactivate apartment
 const deactivateApartment = async (req, res) => {
 	try {
 		await Apartment.findByIdAndUpdate(req.params.id, { isActive: false });
@@ -106,7 +114,7 @@ const deactivateApartment = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: 'Failed to deactivate apartment', error: error.message });
 	}
-}
+};
 
 module.exports = {
 	getNewApartmentForm,

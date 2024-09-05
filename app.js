@@ -8,27 +8,33 @@ const methodOverride = require('method-override'); // To handle DELETE and PUT m
 
 dotenv.config();
 
-const indexRoutes = require('./routes/index.js');
-const adminRoutes = require('./routes/admin.js');
+const indexRoutes = require('./routes/index');
+const adminRoutes = require('./routes/admin');
 
 const app = express();
 
+// Middleware to parse form data
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files
 app.use(express.static('public'));
-app.use(express.static(path.join(__dirname, 'public')));
+
+// Set EJS as the template engine
 app.set('view engine', 'ejs');
 
 // Session setup
 app.use(session({
-	secret: 'yourSecretKey',
+	secret: process.env.SESSION_SECRET || 'yourSecretKey',
 	resave: false,
 	saveUninitialized: true
 }));
 
-app.use(methodOverride('_method')); // Method override for DELETE and PUT
+// Method override for form-based DELETE and PUT requests
+app.use(methodOverride('_method'));
 
 const PORT = process.env.PORT || 4000;
 
+// Use morgan for logging HTTP requests
 app.use(morgan('tiny'));
 
 // Middleware to pass session variables to views
@@ -40,15 +46,17 @@ app.use((req, res, next) => {
 	next();
 });
 
+// Routes
 app.use('/admin', adminRoutes);
 app.use('/', indexRoutes);
 
+// Connect to the database
 async function connectDB() {
 	try {
 		await mongoose.connect(process.env.MONGODB_URI);
 		console.log('Connected to the database');
 	} catch (err) {
-		console.log('Database connection error:', err);
+		console.error('Database connection error:', err);
 	}
 }
 

@@ -26,8 +26,8 @@ const postLogin = async (req, res) => {
 		req.session.username = user.username; // Store the username in the session
 		res.redirect('/');
 	} catch (error) {
-		console.error('Ошибка входа:', error);
-		res.status(500).send('Ошибка входа.');
+		console.error('Login error:', error);
+		res.status(500).send('Error logging in.');
 	}
 };
 
@@ -43,7 +43,7 @@ const postRegister = async (req, res) => {
 	try {
 		const existingUser = await User.findOne({ username });
 		if (existingUser) {
-			return res.status(400).send('Имя пользователя уже занято.');
+			return res.status(400).send('Username already taken.');
 		}
 
 		const hashedPassword = await bcrypt.hash(password, 10);
@@ -58,8 +58,8 @@ const postRegister = async (req, res) => {
 		req.session.userId = newUser._id;
 		res.redirect('/');
 	} catch (error) {
-		console.error('Ошибка регистрации:', error);
-		res.status(500).send('Ошибка регистрации.');
+		console.error('Registration error:', error);
+		res.status(500).send('Error registering.');
 	}
 };
 

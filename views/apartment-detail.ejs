@@ -65,7 +65,7 @@
 				<div class="row">
 					<% apartment.photos.forEach((photo, index)=> { %>
 						<div class="col-md-3">
-							<img src="<%= photo.url %>" class="img-fluid" alt="Photo <%= index + 1 %>">
+							<img src="<%= photo %>" class="img-fluid" alt="Photo <%= index + 1 %>">
 							<p>
 								<%= photo.description %>
 							</p>
@@ -123,6 +123,11 @@
 								<div class="mb-3">
 									<label for="endDate">End Date:</label>
 									<input type="date" id="endDate" name="endDate" required class="form-control">
+								</div>
+								<div class="mb-3">
+									<label for="email">Email:</label>
+									<input type="email" id="email" name="email" required class="form-control"
+										placeholder="Enter your email">
 								</div>
 								<button type="submit" class="btn btn-success w-100">Reserve</button>
 							</form>

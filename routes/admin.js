@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const adminControllers = require('../controllers/admin.js');
+const adminControllers = require('../controllers/admin');
 
 // Middleware to check admin rights
 function isAdmin(req, res, next) {
@@ -12,6 +12,7 @@ function isAdmin(req, res, next) {
 	}
 }
 
+// Apartment management routes for admin
 router.get('/apartment/new-apartment', isAdmin, adminControllers.getNewApartmentForm);
 router.post('/apartment/new-apartment', isAdmin, adminControllers.createNewApartment);
 router.get('/apartment/:id/edit', isAdmin, adminControllers.getEditApartmentForm);

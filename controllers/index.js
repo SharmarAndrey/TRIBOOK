@@ -23,6 +23,7 @@ const getApartmentDetails = async (req, res) => {
 	}
 };
 
+
 const searchApartments = async (req, res) => {
 	try {
 		const query = { isActive: true };
@@ -59,17 +60,17 @@ const searchApartments = async (req, res) => {
 
 const createNewReservation = async (req, res) => {
 	try {
-		const { apartmentId, startDate, endDate } = req.body;
+		const { apartmentId, startDate, endDate, email } = req.body;
 		const start = new Date(startDate);
 		const end = new Date(endDate);
 
 		if (start >= end) {
-			return res.status(400).json({ message: 'Дата начала должна быть раньше даты окончания.' });
+			return res.status(400).json({ message: 'Start date must be earlier than end date.' });
 		}
 
 		const apartment = await Apartment.findById(apartmentId);
 		if (!apartment) {
-			return res.status(404).json({ message: 'Квартира не найдена.' });
+			return res.status(404).json({ message: 'Apartment not found.' });
 		}
 
 		// Check availability of requested dates
@@ -78,10 +79,10 @@ const createNewReservation = async (req, res) => {
 		});
 
 		if (!isAvailable) {
-			return res.status(400).json({ message: 'Квартира недоступна на выбранные даты.' });
+			return res.status(400).json({ message: 'Apartment is not available for the selected dates.' });
 		}
 
-		// If available, create a new entry in availableDates and reduce the available range
+		// Update available date ranges
 		apartment.availableDates = apartment.availableDates.map(availableRange => {
 			if (start >= availableRange.startDate && end <= availableRange.endDate) {
 				return [
@@ -93,11 +94,10 @@ const createNewReservation = async (req, res) => {
 		}).flat();
 
 		await apartment.save();
-
-		res.status(201).json({ message: 'Резервация успешно создана.' });
+		res.status(201).json({ message: 'Reservation created successfully.' });
 	} catch (error) {
-		console.error('Ошибка при создании резервации:', error);
-		res.status(500).json({ message: 'Ошибка при создании резервации.', error: error.message });
+		console.error('Error creating reservation:', error);
+		res.status(500).json({ message: 'Error creating reservation.', error: error.message });
 	}
 };
 
