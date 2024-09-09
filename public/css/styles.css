@@ -1,15 +1,13 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
-
 /* Base Styling */
 body {
 	font-family: "Poppins", sans-serif;
 	background-color: #f4f4f9;
 	color: #333;
-	margin: 0;
-	padding: 0;
 	transition:
 		background-color 0.3s ease,
 		color 0.3s ease;
+	margin: 0;
+	padding: 0;
 }
 
 body.dark-mode {
@@ -28,24 +26,61 @@ body.dark-mode {
 	background-color: #282828;
 }
 
-/* Search Form */
-input[type="number"],
-input[type="date"],
-select {
-	padding: 12px;
-	border-radius: 50px;
-	border: 1px solid #ddd;
-	transition:
-		border-color 0.3s ease,
-		box-shadow 0.3s ease;
-	width: 100%;
+/* Buttons */
+.btn {
+	border-radius: 30px;
+	font-size: 1rem;
+	padding: 0.75rem 1.5rem;
+	transition: all 0.3s ease-in-out;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	font-weight: 600;
 }
 
-input:focus,
-select:focus {
+.btn-primary {
+	background: linear-gradient(45deg, #007bff, #0056b3);
+	color: white;
+	border: none;
+}
+
+.btn-primary:hover {
+	background: linear-gradient(45deg, #0056b3, #003e8e);
+	box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+	transform: translateY(-3px);
+}
+
+.btn-secondary {
+	background: linear-gradient(45deg, #6c757d, #5a6268);
+	color: white;
+	border: none;
+}
+
+.btn-secondary:hover {
+	background: linear-gradient(45deg, #5a6268, #454d55);
+	box-shadow: 0 8px 20px rgba(90, 98, 104, 0.3);
+	transform: translateY(-3px);
+}
+
+.btn-danger {
+	background: linear-gradient(45deg, #dc3545, #c82333);
+	color: white;
+	border: none;
+}
+
+.btn-danger:hover {
+	background: linear-gradient(45deg, #c82333, #a71d2a);
+	box-shadow: 0 8px 20px rgba(220, 53, 69, 0.3);
+	transform: translateY(-3px);
+}
+
+/* General Button Styles */
+.btn:focus {
 	outline: none;
-	border-color: #007bff;
-	box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+	box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.5);
+}
+
+.btn:active {
+	transform: translateY(0);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 /* Cards */
@@ -75,6 +110,7 @@ select:focus {
 	transform: scale(1.05);
 }
 
+/* Dark Mode */
 body.dark-mode .apartment-card {
 	background-color: #2c2c2c;
 }
@@ -84,29 +120,24 @@ body.dark-mode .apartment-card .card-text {
 	color: #ffffff;
 }
 
-/* Buttons */
-.btn {
+/* Form Styling */
+input[type="number"],
+input[type="date"],
+select {
+	padding: 12px;
 	border-radius: 50px;
-	font-size: 1rem;
-	padding: 0.6rem 1.2rem;
+	border: 1px solid #ddd;
 	transition:
-		background-color 0.3s ease,
+		border-color 0.3s ease,
 		box-shadow 0.3s ease;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	width: 100%;
 }
 
-.btn-primary {
-	background-color: #007bff;
-	border: none;
-}
-
-.btn-primary:hover {
-	background-color: #0056b3;
-	box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
-}
-
-body.dark-mode .btn-primary {
-	background-color: #1a73e8;
+input:focus,
+select:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
 /* Animations */
