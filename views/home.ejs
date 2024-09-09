@@ -57,8 +57,46 @@
 		<h1 class="mb-4 text-center">Search Apartments</h1>
 		<form action="/search" method="GET" class="mb-5">
 			<div class="row justify-content-center">
-				<div class="col-md-4">
-					<input type="number" class="form-control" name="maxPrice" placeholder="Max Price (USD)" required>
+				<!-- Max Price Filter -->
+				<div class="col-md-3">
+					<input type="number" class="form-control" name="maxPrice" placeholder="Max Price (USD)">
+				</div>
+				<!-- City Filter -->
+				<div class="col-md-3">
+					<select id="city" name="city" class="form-control" disabled>
+						<option value="">Select City</option>
+					</select>
+				</div>
+				<!-- Province Filter (for City Filter) -->
+				<div class="col-md-3">
+					<select id="province" name="province" class="form-control">
+						<option value="">Select Province</option>
+						<option value="Province1">Province1</option>
+						<option value="Province2">Province2</option>
+						<!-- Add more provinces as necessary -->
+					</select>
+				</div>
+				<!-- Capacity Filter -->
+				<div class="col-md-3">
+					<input type="number" class="form-control" name="maxPersons" placeholder="Number of Persons">
+				</div>
+				<!-- Date Filter -->
+				<div class="col-md-3">
+					<input type="date" class="form-control" name="availableDate" placeholder="Available Date">
+				</div>
+				<!-- Sort Order Filter -->
+				<div class="col-md-3">
+					<select name="sortOrder" class="form-control">
+						<option value="">Sort by</option>
+						<option value="price_asc">Price (Low to High)</option>
+						<option value="price_desc">Price (High to Low)</option>
+						<option value="capacity_asc">Capacity (Low to High)</option>
+						<option value="capacity_desc">Capacity (High to Low)</option>
+						<option value="beds_asc">Beds (Low to High)</option>
+						<option value="beds_desc">Beds (High to Low)</option>
+						<option value="distance_asc">Distance (Close to Far)</option>
+						<option value="distance_desc">Distance (Far to Close)</option>
+					</select>
 				</div>
 				<div class="col-md-2">
 					<button type="submit" class="btn btn-primary">Search</button>
@@ -68,11 +106,12 @@
 
 		<!-- Available Apartments -->
 		<h2 class="mb-4 text-center">Available Apartments</h2>
-		<div class="row">
+		<div class="row grid-layout">
 			<% apartments.forEach(apartment=> { %>
-				<div class="col-md-4 mb-4 d-flex align-items-stretch">
-					<div class="card">
-						<img src="<%= apartment.mainPhoto %>" class="card-img-top" alt="<%= apartment.title %>">
+				<div class="col-md-4 mb-4 d-flex align-items-stretch fade-in-card">
+					<div class="card apartment-card">
+						<img data-src="<%= apartment.mainPhoto %>" class="card-img-top lazy"
+							alt="<%= apartment.title %>">
 						<div class="card-body">
 							<h5 class="card-title">
 								<%= apartment.title %>
@@ -83,18 +122,14 @@
 							<p class="card-text">Max Persons: <%= apartment.maxPersons %>
 							</p>
 							<a href="/apartment/<%= apartment._id %>" class="btn btn-primary">View Details</a>
-
 							<!-- Admin actions -->
 							<% if (isAdmin) { %>
-								<a href="/admin/apartment/<%= apartment._id %>/edit"
-									class="btn btn-secondary mt-2">Edit</a>
+								<a href="/admin/apartment/<%= apartment._id %>/edit" class="btn btn-secondary ">Edit</a>
 								<form action="/admin/apartment/<%= apartment._id %>" method="POST"
 									style="display:inline;">
 									<input type="hidden" name="_method" value="DELETE">
 									<button type="submit" class="btn btn-danger">Delete</button>
 								</form>
-
-
 								<% } %>
 						</div>
 					</div>
@@ -103,9 +138,65 @@
 		</div>
 	</div>
 
+	<!-- Modal for Details -->
+	<div class="modal fade" id="apartmentModal" tabindex="-1" aria-labelledby="apartmentModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="apartmentModalLabel">Apartment Details</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<!-- Apartment details will be injected dynamically here -->
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/main.js"></script>
+	<script>
+		// Fetch cities based on the selected province
+		document.getElementById('province').addEventListener('change', function () {
+			const province = this.value;
+			const citySelect = document.getElementById('city');
+			citySelect.disabled = true;
 
+			if (province) {
+				// Fetch cities dynamically from the server (this is an example)
+				fetch(`/getCities?province=${province}`)
+					.then(response => response.json())
+					.then(data => {
+						// Populate city select dropdown
+						citySelect.innerHTML = '<option value="">Select City</option>';
+						data.cities.forEach(city => {
+							const option = document.createElement('option');
+							option.value = city;
+							option.textContent = city;
+							citySelect.appendChild(option);
+						});
+						citySelect.disabled = false;
+					});
+			}
+		});
+
+		// Lazy Loading for images
+		document.addEventListener("DOMContentLoaded", function () {
+			const lazyImages = document.querySelectorAll("img.lazy");
+			const observer = new IntersectionObserver(function (entries, self) {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						const img = entry.target;
+						img.src = img.dataset.src;
+						img.classList.remove("lazy");
+						self.unobserve(img);
+					}
+				});
+			});
+
+			lazyImages.forEach(image => observer.observe(image));
+		});
+	</script>
 </body>
 
 </html>
