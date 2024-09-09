@@ -11,6 +11,7 @@
 
 <body>
 
+	<!-- Navbar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="/">Apartment Rental</a>
@@ -36,7 +37,8 @@
 							</li>
 							<% if (isAdmin) { %>
 								<li class="nav-item">
-									<a class="nav-link" href="/admin/apartment/new-apartment">New Apartment</a>
+									<a class="nav-link btn btn-outline-primary"
+										href="/admin/apartment/new-apartment">New Apartment</a>
 								</li>
 								<% } %>
 									<% } %>
@@ -56,35 +58,28 @@
 		<!-- Search Form -->
 		<h1 class="mb-4 text-center">Search Apartments</h1>
 		<form action="/search" method="GET" class="mb-5">
-			<div class="row justify-content-center">
-				<!-- Max Price Filter -->
+			<div class="row justify-content-center g-2">
 				<div class="col-md-3">
 					<input type="number" class="form-control" name="maxPrice" placeholder="Max Price (USD)">
 				</div>
-				<!-- City Filter -->
 				<div class="col-md-3">
 					<select id="city" name="city" class="form-control" disabled>
 						<option value="">Select City</option>
 					</select>
 				</div>
-				<!-- Province Filter (for City Filter) -->
 				<div class="col-md-3">
 					<select id="province" name="province" class="form-control">
 						<option value="">Select Province</option>
 						<option value="Province1">Province1</option>
 						<option value="Province2">Province2</option>
-						<!-- Add more provinces as necessary -->
 					</select>
 				</div>
-				<!-- Capacity Filter -->
 				<div class="col-md-3">
 					<input type="number" class="form-control" name="maxPersons" placeholder="Number of Persons">
 				</div>
-				<!-- Date Filter -->
 				<div class="col-md-3">
 					<input type="date" class="form-control" name="availableDate" placeholder="Available Date">
 				</div>
-				<!-- Sort Order Filter -->
 				<div class="col-md-3">
 					<select name="sortOrder" class="form-control">
 						<option value="">Sort by</option>
@@ -99,7 +94,7 @@
 					</select>
 				</div>
 				<div class="col-md-2">
-					<button type="submit" class="btn btn-primary">Search</button>
+					<button type="submit" class="btn btn-primary w-100">Search</button>
 				</div>
 			</div>
 		</form>
@@ -121,14 +116,17 @@
 							<p class="card-text">Size: <%= apartment.size %> sqm</p>
 							<p class="card-text">Max Persons: <%= apartment.maxPersons %>
 							</p>
-							<a href="/apartment/<%= apartment._id %>" class="btn btn-primary">View Details</a>
+							<a href="/apartment/<%= apartment._id %>" class="btn btn-primary mb-2 w-100">View
+								Details</a>
+
 							<!-- Admin actions -->
 							<% if (isAdmin) { %>
-								<a href="/admin/apartment/<%= apartment._id %>/edit" class="btn btn-secondary ">Edit</a>
+								<a href="/admin/apartment/<%= apartment._id %>/edit"
+									class="btn btn-secondary mb-2 w-100">Edit</a>
 								<form action="/admin/apartment/<%= apartment._id %>" method="POST"
 									style="display:inline;">
 									<input type="hidden" name="_method" value="DELETE">
-									<button type="submit" class="btn btn-danger">Delete</button>
+									<button type="submit" class="btn btn-danger w-100">Delete</button>
 								</form>
 								<% } %>
 						</div>

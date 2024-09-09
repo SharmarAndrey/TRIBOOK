@@ -5,14 +5,13 @@ body {
 	font-family: "Poppins", sans-serif;
 	background-color: #f4f4f9;
 	color: #333;
+	margin: 0;
+	padding: 0;
 	transition:
 		background-color 0.3s ease,
 		color 0.3s ease;
-	margin: 0;
-	padding: 0;
 }
 
-/* Dark Mode */
 body.dark-mode {
 	background-color: #181818;
 	color: #f1f1f1;
@@ -76,7 +75,6 @@ select:focus {
 	transform: scale(1.05);
 }
 
-/* Dark Mode */
 body.dark-mode .apartment-card {
 	background-color: #2c2c2c;
 }
