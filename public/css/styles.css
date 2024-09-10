@@ -119,7 +119,9 @@ body.dark-mode .apartment-card .card-title,
 body.dark-mode .apartment-card .card-text {
 	color: #ffffff;
 }
-
+.card-title {
+	height: 60px;
+}
 /* Form Styling */
 input[type="number"],
 input[type="date"],

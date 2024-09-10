@@ -6,8 +6,10 @@ const adminControllers = require('../controllers/admin');
 // Middleware to check admin rights
 function isAdmin(req, res, next) {
 	if (req.session.isAdmin) {
+		console.log('Admin check passed');
 		next();
 	} else {
+		console.log('Admin check failed');
 		res.redirect('/login');
 	}
 }

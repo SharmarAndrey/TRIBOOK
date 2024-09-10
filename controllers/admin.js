@@ -96,30 +96,30 @@ const updateApartment = async (req, res) => {
 
 // Delete apartment
 const deleteApartment = async (req, res) => {
+	console.log('DELETE request reached the deleteApartment controller');
+
 	try {
 		const apartmentId = req.params.id;
-
-		// Log the ID to ensure it's correct
 		console.log(`Attempting to delete apartment with ID: ${apartmentId}`);
 
-		// Check if the apartment exists before trying to delete
 		const apartment = await Apartment.findById(apartmentId);
 		if (!apartment) {
 			console.log('Apartment not found');
 			return res.status(404).send('Apartment not found');
 		}
 
-		// Perform the delete operation
 		await Apartment.findByIdAndDelete(apartmentId);
 		console.log(`Apartment with ID: ${apartmentId} has been successfully deleted`);
 
-		// After deletion, redirect to the homepage
 		return res.redirect('/');
 	} catch (error) {
 		console.error('Error deleting apartment:', error);
 		return res.status(500).send('Error deleting apartment');
 	}
 };
+
+
+
 
 
 
