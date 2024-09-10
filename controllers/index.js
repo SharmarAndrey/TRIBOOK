@@ -23,17 +23,64 @@ const getApartmentDetails = async (req, res) => {
 		res.status(500).send('Error fetching apartment details');
 	}
 };
-
 const searchApartments = async (req, res) => {
 	try {
-		// Parse the maximum price from the query string
-		const { maxPrice } = req.query;
+		const { maxPrice, city, province, maxPersons, availableDate, sortOrder } = req.query;
 
-		// Find apartments where the price is less than or equal to the maxPrice
-		const apartments = await Apartment.find({
+		// Build the query object based on the fields provided
+		const query = {
 			isActive: true,
-			price: { $lte: maxPrice },
-		});
+		};
+
+		if (maxPrice) {
+			query.price = { $lte: maxPrice };
+		}
+
+		if (city) {
+			query.city = city;
+		}
+
+		if (province) {
+			query.province = province;
+		}
+
+		if (maxPersons) {
+			query.maxPersons = { $gte: maxPersons }; // Apartments that can hold at least maxPersons
+		}
+
+		if (availableDate) {
+			const date = new Date(availableDate);
+			query.availableDates = {
+				$elemMatch: {
+					startDate: { $lte: date },
+					endDate: { $gte: date }
+				}
+			};
+		}
+
+		// Handle sorting
+		let sortOption = {};
+		if (sortOrder) {
+			switch (sortOrder) {
+				case 'price_asc':
+					sortOption.price = 1; // Ascending
+					break;
+				case 'price_desc':
+					sortOption.price = -1; // Descending
+					break;
+				case 'capacity_asc':
+					sortOption.maxPersons = 1; // Ascending
+					break;
+				case 'capacity_desc':
+					sortOption.maxPersons = -1; // Descending
+					break;
+				default:
+					break;
+			}
+		}
+
+		// Fetch apartments based on the query and sort
+		const apartments = await Apartment.find(query).sort(sortOption);
 
 		// Render the 'home' view and pass the filtered apartments
 		res.render('home', { apartments });
@@ -42,6 +89,7 @@ const searchApartments = async (req, res) => {
 		res.status(500).send('Error searching for apartments');
 	}
 };
+
 
 const createNewReservation = async (req, res) => {
 	try {
