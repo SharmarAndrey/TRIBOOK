@@ -3,11 +3,13 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const methodOverride = require('method-override'); // For handling DELETE/PUT methods via forms
 const path = require('path');
-const methodOverride = require('method-override'); // To handle DELETE and PUT methods via forms
 
+// Load environment variables from .env file
 dotenv.config();
 
+// Import routes
 const indexRoutes = require('./routes/index');
 const adminRoutes = require('./routes/admin');
 
@@ -32,17 +34,14 @@ app.use(session({
 // Method override for form-based DELETE and PUT requests
 app.use(methodOverride('_method'));
 
-const PORT = process.env.PORT || 4000;
-
 // Use morgan for logging HTTP requests
 app.use(morgan('tiny'));
 
 // Middleware to pass session variables to views
 app.use((req, res, next) => {
-	res.locals.isAuthenticated = req.session.userId ? true : false; // User authentication check
-	res.locals.isAdmin = req.session.isAdmin || false; // Admin rights check
-	res.locals.userId = req.session.userId || null; // Pass userId to views
-	res.locals.username = req.session.username || '';
+	res.locals.isAuthenticated = req.session.userId ? true : false;  // User authentication check
+	res.locals.isAdmin = req.session.isAdmin || false;               // Admin rights check
+	res.locals.username = req.session.username || '';                // Pass username to views
 	next();
 });
 
@@ -62,6 +61,8 @@ async function connectDB() {
 
 connectDB();
 
+// Start the server
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
 });

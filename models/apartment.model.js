@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
 const apartmentSchema = new Schema({
 	title: { type: String, required: true },
@@ -20,9 +21,9 @@ const apartmentSchema = new Schema({
 		heater: Boolean,
 		tv: Boolean
 	},
-	province: { type: String, required: true },
-	city: { type: String, required: true },
-	gps: { type: String },
+	province: { type: String, required: true },  // Province for the apartment
+	city: { type: String, required: true },      // City for the apartment
+	gps: { type: String },                       // GPS coordinates
 	availableDates: [{
 		startDate: { type: Date, required: true },
 		endDate: { type: Date, required: true }
@@ -30,6 +31,6 @@ const apartmentSchema = new Schema({
 	isActive: { type: Boolean, default: true }
 });
 
-const Apartment = model('Apartment', apartmentSchema);
+const Apartment = mongoose.model('Apartment', apartmentSchema);
 
 module.exports = Apartment;

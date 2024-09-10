@@ -60,15 +60,18 @@
 					<input type="number" class="form-control" name="maxPrice" placeholder="Max Price (USD)">
 				</div>
 				<div class="col-md-3">
-					<select id="city" name="city" class="form-control" disabled>
-						<option value="">Select City</option>
+					<select id="province" name="province" class="form-control">
+						<option value="">Select Province</option>
+						<% provinces.forEach(province=> { %>
+							<option value="<%= province %>">
+								<%= province %>
+							</option>
+							<% }); %>
 					</select>
 				</div>
 				<div class="col-md-3">
-					<select id="province" name="province" class="form-control">
-						<option value="">Select Province</option>
-						<option value="Province1">Province1</option>
-						<option value="Province2">Province2</option>
+					<select id="city" name="city" class="form-control" disabled>
+						<option value="">Select City</option>
 					</select>
 				</div>
 				<div class="col-md-3">
@@ -123,7 +126,7 @@
 						</div>
 					</div>
 				</div>
-				<% }) %>
+				<% }); %>
 		</div>
 	</div>
 
