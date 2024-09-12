@@ -90,16 +90,22 @@ const updateApartment = async (req, res) => {
 	}
 };
 
+// Delete Apartment  by POST route
 const deleteApartment = async (req, res) => {
 	try {
-		await Apartment.findByIdAndDelete(req.params.id);
+		console.log("Attempting to delete apartment with ID:", req.params.id);
+		const result = await Apartment.findByIdAndDelete(req.params.id);
+		if (!result) {
+			console.log("Apartment not found for deletion.");
+			return res.status(404).send("Apartment not found");
+		}
+		console.log("Apartment successfully deleted", result);
 		res.redirect('/');
 	} catch (error) {
 		console.error('Error deleting apartment:', error);
 		res.status(500).send('Error deleting apartment');
 	}
 };
-
 
 module.exports = {
 	getNewApartmentForm,

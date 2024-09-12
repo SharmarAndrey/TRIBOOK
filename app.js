@@ -3,7 +3,6 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const session = require('express-session');
-const methodOverride = require('method-override');
 const path = require('path');
 
 // Load environment variables
@@ -18,7 +17,6 @@ const app = express();
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use(methodOverride('_method'));
 app.use(morgan('tiny'));
 
 // Set EJS as the template engine

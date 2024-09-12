@@ -117,11 +117,10 @@
 							<% if (isAdmin) { %>
 								<a href="/admin/apartment/<%= apartment._id %>/edit"
 									class="btn btn-secondary mb-2 w-100">Edit</a>
-								<form action="/admin/apartment/<%= apartment._id %>" method="POST"
-									style="display:inline;">
-									<input type="hidden" name="_method" value="DELETE">
+								<form action="/admin/apartment/<%= apartment._id %>/delete" method="POST">
 									<button type="submit" class="btn btn-danger w-100">Delete</button>
 								</form>
+
 								<% } %>
 						</div>
 					</div>
