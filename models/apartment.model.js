@@ -21,9 +21,9 @@ const apartmentSchema = new Schema({
 		heater: Boolean,
 		tv: Boolean
 	},
-	province: { type: String, required: true },  // Province for the apartment
-	city: { type: String, required: true },      // City for the apartment
-	gps: { type: String },                       // GPS coordinates
+	province: { type: String, required: true },
+	city: { type: String, required: true },
+	gps: { type: String },
 	availableDates: [{
 		startDate: { type: Date, required: true },
 		endDate: { type: Date, required: true }

@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
@@ -8,11 +9,8 @@ const userSchema = new Schema({
 	isPasswordHashed: { type: Boolean, default: false }
 });
 
-// Hash password before saving, only if not hashed yet
 userSchema.pre('save', async function (next) {
-	if (this.isPasswordHashed) {
-		return next();
-	}
+	if (this.isPasswordHashed) return next();
 
 	try {
 		const salt = await bcrypt.genSalt(10);
@@ -24,6 +22,6 @@ userSchema.pre('save', async function (next) {
 	}
 });
 
-const User = model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;

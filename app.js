@@ -3,10 +3,10 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const session = require('express-session');
-const methodOverride = require('method-override'); // For handling DELETE/PUT methods via forms
+const methodOverride = require('method-override');
 const path = require('path');
 
-// Load environment variables from .env file
+// Load environment variables
 dotenv.config();
 
 // Import routes
@@ -15,11 +15,11 @@ const adminRoutes = require('./routes/admin');
 
 const app = express();
 
-// Middleware to parse form data
+// Middleware
 app.use(express.urlencoded({ extended: true }));
-
-// Serve static files
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
+app.use(morgan('tiny'));
 
 // Set EJS as the template engine
 app.set('view engine', 'ejs');
@@ -31,17 +31,11 @@ app.use(session({
 	saveUninitialized: true
 }));
 
-// Method override for form-based DELETE and PUT requests
-app.use(methodOverride('_method'));
-
-// Use morgan for logging HTTP requests
-app.use(morgan('tiny'));
-
 // Middleware to pass session variables to views
 app.use((req, res, next) => {
-	res.locals.isAuthenticated = req.session.userId ? true : false;  // User authentication check
-	res.locals.isAdmin = req.session.isAdmin || false;               // Admin rights check
-	res.locals.username = req.session.username || '';                // Pass username to views
+	res.locals.isAuthenticated = req.session.userId ? true : false;
+	res.locals.isAdmin = req.session.isAdmin || false;
+	res.locals.username = req.session.username || '';
 	next();
 });
 

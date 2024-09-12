@@ -1,12 +1,10 @@
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
-// Display login form
 const getLogin = (req, res) => {
 	res.render('login');
 };
 
-// Handle login
 const postLogin = async (req, res) => {
 	const { username, password } = req.body;
 
@@ -23,20 +21,17 @@ const postLogin = async (req, res) => {
 
 		req.session.isAdmin = user.isAdmin;
 		req.session.userId = user._id;
-		req.session.username = user.username; // Store the username in the session
+		req.session.username = user.username;
 		res.redirect('/');
 	} catch (error) {
-		console.error('Login error:', error);
 		res.status(500).send('Error logging in.');
 	}
 };
 
-// Display registration form
 const getRegister = (req, res) => {
 	res.render('register');
 };
 
-// Handle registration
 const postRegister = async (req, res) => {
 	const { username, password } = req.body;
 
@@ -51,19 +46,17 @@ const postRegister = async (req, res) => {
 		const newUser = new User({
 			username,
 			password: hashedPassword,
-			isAdmin: false // Regular users are not admins
+			isAdmin: false
 		});
 
 		await newUser.save();
 		req.session.userId = newUser._id;
 		res.redirect('/');
 	} catch (error) {
-		console.error('Registration error:', error);
 		res.status(500).send('Error registering.');
 	}
 };
 
-// Handle logout
 const logout = (req, res) => {
 	req.session.destroy();
 	res.redirect('/');

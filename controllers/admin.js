@@ -1,11 +1,9 @@
-const Apartment = require('../models/apartment.model.js');
+const Apartment = require('../models/apartment.model');
 
-// Get new apartment form
 const getNewApartmentForm = (req, res) => {
 	res.render('new-apartment.ejs');
 };
 
-// Create new apartment
 const createNewApartment = async (req, res) => {
 	try {
 		const services = {
@@ -26,16 +24,16 @@ const createNewApartment = async (req, res) => {
 			rooms: req.body.rooms,
 			beds: req.body.beds,
 			bathrooms: req.body.bathrooms,
-			photos: req.body.photos ? req.body.photos.split(',') : [],
+			photos: req.body.photos.split(','),
 			mainPhoto: req.body.mainPhoto,
 			price: req.body.price,
 			maxPersons: req.body.maxPersons,
 			size: req.body.size,
-			services: services,
+			services,
 			province: req.body.province,
 			city: req.body.city,
 			gps: req.body.gps,
-			availableDates: availableDates
+			availableDates
 		});
 
 		await newApartment.save();
@@ -45,7 +43,6 @@ const createNewApartment = async (req, res) => {
 	}
 };
 
-// Get edit apartment form
 const getEditApartmentForm = async (req, res) => {
 	try {
 		const apartment = await Apartment.findById(req.params.id);
@@ -58,7 +55,6 @@ const getEditApartmentForm = async (req, res) => {
 	}
 };
 
-// Update apartment
 const updateApartment = async (req, res) => {
 	try {
 		const apartmentData = {
@@ -94,56 +90,21 @@ const updateApartment = async (req, res) => {
 	}
 };
 
-// Delete apartment
 const deleteApartment = async (req, res) => {
-	console.log('DELETE request reached the deleteApartment controller');
-
 	try {
-		const apartmentId = req.params.id;
-		console.log(`Attempting to delete apartment with ID: ${apartmentId}`);
-
-		const apartment = await Apartment.findById(apartmentId);
-		if (!apartment) {
-			console.log('Apartment not found');
-			return res.status(404).send('Apartment not found');
-		}
-
-		await Apartment.findByIdAndDelete(apartmentId);
-		console.log(`Apartment with ID: ${apartmentId} has been successfully deleted`);
-
-		return res.redirect('/');
+		await Apartment.findByIdAndDelete(req.params.id);
+		res.redirect('/');
 	} catch (error) {
 		console.error('Error deleting apartment:', error);
-		return res.status(500).send('Error deleting apartment');
+		res.status(500).send('Error deleting apartment');
 	}
 };
 
-
-
-
-
-
-
-
-
-
-
-
-// Deactivate apartment
-const deactivateApartment = async (req, res) => {
-	try {
-		await Apartment.findByIdAndUpdate(req.params.id, { isActive: false });
-		res.status(200).json({ message: 'Apartment deactivated successfully!' });
-	} catch (error) {
-		res.status(500).json({ message: 'Failed to deactivate apartment', error: error.message });
-	}
-};
 
 module.exports = {
 	getNewApartmentForm,
 	createNewApartment,
 	getEditApartmentForm,
 	updateApartment,
-	deleteApartment,
-	deactivateApartment
+	deleteApartment
 };
