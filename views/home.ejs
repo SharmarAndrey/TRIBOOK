@@ -10,6 +10,7 @@
 </head>
 
 <body>
+	<!-- Navigation Bar -->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="/">Apartment Rental</a>
@@ -51,8 +52,8 @@
 		</div>
 	</nav>
 
+	<!-- Search Form -->
 	<div class="container mt-5 fade-in">
-		<!-- Search Form -->
 		<h1 class="mb-4 text-center">Search Apartments</h1>
 		<form action="/search" method="GET" class="mb-5">
 			<div class="row justify-content-center g-2">
@@ -112,6 +113,35 @@
 							<p class="card-text">Size: <%= apartment.size %> sqm</p>
 							<p class="card-text">Max Persons: <%= apartment.maxPersons %>
 							</p>
+
+							<!-- Services with Icons -->
+							<div class="services">
+								<% if (apartment.services.wifi) { %>
+									<img src="/icons/wifi-icon.png" alt="WiFi" title="WiFi" width="24px">
+									<% } %>
+										<% if (apartment.services.airConditioner) { %>
+											<img src="/icons/ac-icon.png" alt="Air Conditioner" title="Air Conditioner"
+												width="24px">
+											<% } %>
+												<% if (apartment.services.kitchen) { %>
+													<img src="/icons/kitchen-icon.png" alt="Kitchen" title="Kitchen"
+														width="24px">
+													<% } %>
+														<% if (apartment.services.disability) { %>
+															<img src="/icons/disability-icon.png"
+																alt="Disability Access" title="Disability Access"
+																width="24px">
+															<% } %>
+																<% if (apartment.services.heater) { %>
+																	<img src="/icons/heater-icon.png" alt="Heater"
+																		title="Heater" width="24px">
+																	<% } %>
+																		<% if (apartment.services.tv) { %>
+																			<img src="/icons/tv-icon.png" alt="TV"
+																				title="TV" width="24px">
+																			<% } %>
+							</div>
+
 							<a href="/apartment/<%= apartment._id %>" class="btn btn-primary mb-2 w-100">View
 								Details</a>
 							<% if (isAdmin) { %>
@@ -120,7 +150,6 @@
 								<form action="/admin/apartment/<%= apartment._id %>/delete" method="POST">
 									<button type="submit" class="btn btn-danger w-100">Delete</button>
 								</form>
-
 								<% } %>
 						</div>
 					</div>
@@ -131,43 +160,6 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/main.js"></script>
-	<script>
-		document.getElementById('province').addEventListener('change', function () {
-			const province = this.value;
-			const citySelect = document.getElementById('city');
-			citySelect.disabled = true;
-
-			if (province) {
-				fetch(`/getCities?province=${province}`)
-					.then(response => response.json())
-					.then(data => {
-						citySelect.innerHTML = '<option value="">Select City</option>';
-						data.cities.forEach(city => {
-							const option = document.createElement('option');
-							option.value = city;
-							option.textContent = city;
-							citySelect.appendChild(option);
-						});
-						citySelect.disabled = false;
-					});
-			}
-		});
-
-		document.addEventListener("DOMContentLoaded", function () {
-			const lazyImages = document.querySelectorAll("img.lazy");
-			const observer = new IntersectionObserver(function (entries, self) {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						const img = entry.target;
-						img.src = img.dataset.src;
-						img.classList.remove("lazy");
-						self.unobserve(img);
-					}
-				});
-			});
-			lazyImages.forEach(image => observer.observe(image));
-		});
-	</script>
 </body>
 
 </html>

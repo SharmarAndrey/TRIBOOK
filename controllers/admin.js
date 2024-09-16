@@ -37,7 +37,7 @@ const createNewApartment = async (req, res) => {
 		});
 
 		await newApartment.save();
-		res.status(201).json({ message: 'Apartment created successfully!' });
+		res.redirect('/');
 	} catch (error) {
 		res.status(500).json({ message: 'Failed to create apartment', error: error.message });
 	}

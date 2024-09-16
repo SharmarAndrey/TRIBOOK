@@ -17,6 +17,28 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	});
 
+	// Fetch cities based on selected province
+	document.getElementById('province').addEventListener('change', function () {
+		const province = this.value;
+		const citySelect = document.getElementById('city');
+		citySelect.disabled = true;
+
+		if (province) {
+			fetch(`/getCities?province=${province}`)
+				.then(response => response.json())
+				.then(data => {
+					citySelect.innerHTML = '<option value="">Select City</option>';
+					data.cities.forEach(city => {
+						const option = document.createElement('option');
+						option.value = city;
+						option.textContent = city;
+						citySelect.appendChild(option);
+					});
+					citySelect.disabled = false;
+				});
+		}
+	});
+
 	// Lazy Loading for images
 	const lazyImages = document.querySelectorAll('.lazy');
 	const observer = new IntersectionObserver((entries, self) => {
@@ -31,15 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	});
 
 	lazyImages.forEach(image => observer.observe(image));
-
-	// Modal Functionality
-	const modalButtons = document.querySelectorAll('.view-details-btn');
-	modalButtons.forEach(button => {
-		button.addEventListener('click', (e) => {
-			const modal = new bootstrap.Modal(document.getElementById('apartmentModal'));
-			modal.show();
-		});
-	});
 
 	// Intersection Observer for Fade-in Cards
 	const cards = document.querySelectorAll('.fade-in-card');
