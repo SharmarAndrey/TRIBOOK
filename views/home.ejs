@@ -2,61 +2,87 @@
 <html lang="en">
 
 <head>
+	<!-- Meta tags and title -->
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Available Apartments</title>
+
+	<!-- Bootstrap CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+	<!-- Font Awesome Icons -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+	<!-- Custom CSS -->
 	<link rel="stylesheet" href="/css/styles.css">
+
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
 	<!-- Navigation Bar -->
-	<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="/">Apartment Rental</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+		<div class="container">
+			<a class="navbar-brand" href="/">
+				<img src="/images/logo.png" alt="TRIIBOOK" width="30" height="30" class="d-inline-block align-text-top">
+				TRIBOOK
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+				aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
+			<div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+				<ul class="navbar-nav">
 					<% if (!isAuthenticated) { %>
 						<li class="nav-item">
-							<a class="nav-link" href="/login">Login</a>
+							<a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="/register">Register</a>
+							<a class="nav-link" href="/register"><i class="fas fa-user-plus"></i> Register</a>
 						</li>
 						<% } else { %>
-							<li class="nav-item">
-								<span class="navbar-text">Hello, <%= username %>!</span>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+									data-bs-toggle="dropdown" aria-expanded="false">
+									<i class="fas fa-user"></i>
+									<%= username %>
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="userDropdown">
+									<% if (isAdmin) { %>
+										<li><a class="dropdown-item" href="/admin/apartment/new-apartment"><i
+													class="fas fa-plus-circle"></i> New Apartment</a></li>
+										<% } %>
+											<li><a class="dropdown-item" href="/logout"><i
+														class="fas fa-sign-out-alt"></i> Logout</a></li>
+								</ul>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/logout">Logout</a>
-							</li>
-							<% if (isAdmin) { %>
+							<% } %>
 								<li class="nav-item">
-									<a class="nav-link btn btn-outline-primary"
-										href="/admin/apartment/new-apartment">New Apartment</a>
+									<button id="darkModeToggle" class="btn btn-link nav-link">
+										<i class="fas fa-moon"></i>
+									</button>
 								</li>
-								<% } %>
-									<% } %>
-										<li class="nav-item">
-											<div id="darkModeToggle" class="dark-mode-toggle">
-												<img src="https://cdn-icons-png.flaticon.com/512/3073/3073665.png"
-													alt="Toggle Dark Mode" width="32px">
-											</div>
-										</li>
 				</ul>
 			</div>
 		</div>
 	</nav>
 
+	<!-- Hero Section -->
+	<div class="hero-section text-center text-white d-flex align-items-center justify-content-center">
+		<div class="overlay"></div>
+		<div class="container">
+			<h1 class="display-4">Find Your Perfect Apartment</h1>
+			<p class="lead">Discover the best apartments at the best prices.</p>
+			<a href="#search" class="btn btn-primary btn-lg mt-3">Start Searching</a>
+		</div>
+	</div>
+
 	<!-- Search Form -->
-	<div class="container mt-5 fade-in">
-		<h1 class="mb-4 text-center">Search Apartments</h1>
+	<div id="search" class="container mt-5 fade-in">
+		<h2 class="mb-4 text-center">Search Apartments</h2>
 		<form action="/search" method="GET" class="mb-5">
-			<div class="row justify-content-center g-2">
+			<div class="row g-3">
 				<div class="col-md-3">
 					<input type="number" class="form-control" name="maxPrice" placeholder="Max Price (USD)">
 				</div>
@@ -78,6 +104,8 @@
 				<div class="col-md-3">
 					<input type="number" class="form-control" name="maxPersons" placeholder="Number of Persons">
 				</div>
+			</div>
+			<div class="row g-3 mt-3">
 				<div class="col-md-3">
 					<input type="date" class="form-control" name="availableDate" placeholder="Available Date">
 				</div>
@@ -90,67 +118,67 @@
 						<option value="capacity_desc">Capacity (High to Low)</option>
 					</select>
 				</div>
-				<div class="col-md-2">
-					<button type="submit" class="btn btn-primary w-100">Search</button>
+				<div class="col-md-3">
+					<button type="submit" class="btn btn-primary w-100"><i class="fas fa-search"></i> Search</button>
 				</div>
 			</div>
 		</form>
 
 		<!-- Available Apartments -->
 		<h2 class="mb-4 text-center">Available Apartments</h2>
-		<div class="row grid-layout">
+		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
 			<% apartments.forEach(apartment=> { %>
-				<div class="col-md-4 mb-4 d-flex align-items-stretch fade-in-card">
-					<div class="card apartment-card">
-						<img data-src="<%= apartment.mainPhoto %>" class="card-img-top lazy"
-							alt="<%= apartment.title %>">
-						<div class="card-body">
+				<div class="col fade-in-card">
+					<div class="card h-100 apartment-card">
+						<div class="card-img-top" style="background-image: url('<%= apartment.mainPhoto %>');"></div>
+						<div class="card-body d-flex flex-column">
 							<h5 class="card-title">
 								<%= apartment.title %>
 							</h5>
-							<p class="card-text">Price per night: $<%= apartment.price %>
+							<p class="card-text mb-1"><strong>Price per night:</strong> $<%= apartment.price %>
 							</p>
-							<p class="card-text">Size: <%= apartment.size %> sqm</p>
-							<p class="card-text">Max Persons: <%= apartment.maxPersons %>
+							<p class="card-text mb-1"><strong>Size:</strong>
+								<%= apartment.size %> sqm
+							</p>
+							<p class="card-text mb-3"><strong>Max Persons:</strong>
+								<%= apartment.maxPersons %>
 							</p>
 
 							<!-- Services with Icons -->
-							<div class="services">
+							<div class="mb-3">
 								<% if (apartment.services.wifi) { %>
-									<img src="/icons/wifi-icon.png" alt="WiFi" title="WiFi" width="24px">
+									<i class="fas fa-wifi" title="WiFi"></i>
 									<% } %>
 										<% if (apartment.services.airConditioner) { %>
-											<img src="/icons/ac-icon.png" alt="Air Conditioner" title="Air Conditioner"
-												width="24px">
+											<i class="fas fa-snowflake" title="Air Conditioner"></i>
 											<% } %>
 												<% if (apartment.services.kitchen) { %>
-													<img src="/icons/kitchen-icon.png" alt="Kitchen" title="Kitchen"
-														width="24px">
+													<i class="fas fa-utensils" title="Kitchen"></i>
 													<% } %>
 														<% if (apartment.services.disability) { %>
-															<img src="/icons/disability-icon.png"
-																alt="Disability Access" title="Disability Access"
-																width="24px">
+															<i class="fas fa-wheelchair" title="Disability Access"></i>
 															<% } %>
 																<% if (apartment.services.heater) { %>
-																	<img src="/icons/heater-icon.png" alt="Heater"
-																		title="Heater" width="24px">
+																	<i class="fas fa-thermometer-half"
+																		title="Heater"></i>
 																	<% } %>
 																		<% if (apartment.services.tv) { %>
-																			<img src="/icons/tv-icon.png" alt="TV"
-																				title="TV" width="24px">
+																			<i class="fas fa-tv" title="TV"></i>
 																			<% } %>
 							</div>
 
-							<a href="/apartment/<%= apartment._id %>" class="btn btn-primary mb-2 w-100">View
-								Details</a>
-							<% if (isAdmin) { %>
-								<a href="/admin/apartment/<%= apartment._id %>/edit"
-									class="btn btn-secondary mb-2 w-100">Edit</a>
-								<form action="/admin/apartment/<%= apartment._id %>/delete" method="POST">
-									<button type="submit" class="btn btn-danger w-100">Delete</button>
-								</form>
-								<% } %>
+							<div class="mt-auto">
+								<a href="/apartment/<%= apartment._id %>" class="btn btn-primary w-100 mb-2"><i
+										class="fas fa-info-circle"></i> View Details</a>
+								<% if (isAdmin) { %>
+									<a href="/admin/apartment/<%= apartment._id %>/edit"
+										class="btn btn-secondary w-100 mb-2"><i class="fas fa-edit"></i> Edit</a>
+									<form action="/admin/apartment/<%= apartment._id %>/delete" method="POST">
+										<button type="submit" class="btn btn-danger w-100"><i
+												class="fas fa-trash-alt"></i> Delete</button>
+									</form>
+									<% } %>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -158,7 +186,43 @@
 		</div>
 	</div>
 
+	<!-- Footer -->
+	<footer class="bg-light text-center text-lg-start mt-5">
+		<div class="container p-4">
+			<div class="row">
+				<div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+					<h5 class="text-uppercase text-primary">TRIBOOK</h5>
+					<p>
+						Your trusted partner in finding the best apartments.
+					</p>
+				</div>
+				<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+					<h5 class="text-uppercase">Links</h5>
+					<ul class="list-unstyled mb-0">
+						<li><a href="/about" class="text-dark">About Us</a></li>
+						<li><a href="/contact" class="text-dark">Contact</a></li>
+						<li><a href="/terms" class="text-dark">Terms of Service</a></li>
+						<li><a href="/privacy" class="text-dark">Privacy Policy</a></li>
+					</ul>
+				</div>
+				<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+					<h5 class="text-uppercase">Follow Us</h5>
+					<a href="#" class="text-dark me-3"><i class="fab fa-facebook-f"></i></a>
+					<a href="#" class="text-dark me-3"><i class="fab fa-twitter"></i></a>
+					<a href="#" class="text-dark me-3"><i class="fab fa-instagram"></i></a>
+					<a href="#" class="text-dark"><i class="fab fa-linkedin-in"></i></a>
+				</div>
+			</div>
+		</div>
+		<div class="text-center p-3 bg-dark text-primary">
+			© 2024 TRIBOOK. All rights reserved.
+		</div>
+	</footer>
+
+	<!-- Bootstrap JS Bundle -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Custom JS -->
 	<script src="/main.js"></script>
 </body>
 

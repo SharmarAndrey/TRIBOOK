@@ -17,22 +17,50 @@ body.dark-mode {
 
 /* Navbar */
 .navbar {
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 	background-color: #ffffff;
 	transition: background-color 0.3s ease;
 }
 
-.navbar.dark-mode {
+.navbar-brand img {
+	margin-right: 10px;
+}
+
+body.dark-mode .navbar {
 	background-color: #282828;
+}
+
+/* Hero Section */
+.hero-section {
+	position: relative;
+	background: url("/images/hero-bg.jpg") center center/cover no-repeat;
+	height: 60vh;
+}
+
+.hero-section .overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-section .container {
+	position: relative;
+	z-index: 2;
+}
+
+body.dark-mode .hero-section .overlay {
+	background: rgba(0, 0, 0, 0.7);
 }
 
 /* Buttons */
 .btn {
-	border-radius: 30px;
+	border-radius: 50px;
 	font-size: 1rem;
-	padding: 0.75rem 1.5rem;
+	padding: 0.6rem 1.2rem;
 	transition: all 0.3s ease-in-out;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 	font-weight: 600;
 }
 
@@ -75,18 +103,18 @@ body.dark-mode {
 /* General Button Styles */
 .btn:focus {
 	outline: none;
-	box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.5);
+	box-shadow: none;
 }
 
 .btn:active {
 	transform: translateY(0);
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	box-shadow: none;
 }
 
 /* Cards */
 .apartment-card {
 	border-radius: 12px;
-	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
 	transition:
 		transform 0.3s ease,
 		box-shadow 0.3s ease;
@@ -95,22 +123,16 @@ body.dark-mode {
 }
 
 .apartment-card:hover {
-	transform: translateY(-10px);
-	box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+	transform: translateY(-5px);
+	box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
 }
 
 .apartment-card .card-img-top {
-	border-radius: 12px 12px 0 0;
-	object-fit: cover;
-	height: 220px;
-	transition: transform 0.3s ease;
+	background-size: cover;
+	background-position: center;
+	height: 200px;
 }
 
-.apartment-card .card-img-top:hover {
-	transform: scale(1.05);
-}
-
-/* Dark Mode */
 body.dark-mode .apartment-card {
 	background-color: #2c2c2c;
 }
@@ -119,9 +141,7 @@ body.dark-mode .apartment-card .card-title,
 body.dark-mode .apartment-card .card-text {
 	color: #ffffff;
 }
-.card-title {
-	height: 60px;
-}
+
 /* Form Styling */
 input[type="number"],
 input[type="date"],
@@ -139,7 +159,14 @@ input:focus,
 select:focus {
 	outline: none;
 	border-color: #007bff;
-	box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+	box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
+}
+
+/* Service Icons */
+.card .fa {
+	font-size: 1.2rem;
+	color: #007bff;
+	margin-right: 10px;
 }
 
 /* Animations */
@@ -161,4 +188,51 @@ select:focus {
 
 .fade-in-card.visible {
 	opacity: 1;
+}
+
+/* Dark Mode Toggle */
+#darkModeToggle i {
+	font-size: 1.2rem;
+	color: #333;
+}
+
+body.dark-mode #darkModeToggle i {
+	color: #f1f1f1;
+}
+
+/* Footer */
+footer {
+	background-color: #f8f9fa;
+	color: #6c757d;
+}
+
+footer a {
+	color: #6c757d;
+	text-decoration: none;
+}
+
+footer a:hover {
+	color: #0056b3;
+}
+
+body.dark-mode footer {
+	background-color: #282828;
+	color: #f1f1f1;
+}
+
+body.dark-mode footer a {
+	color: #f1f1f1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 576px) {
+	.navbar-brand {
+		font-size: 1.1rem;
+	}
+}
+
+/* Additional Styles */
+h1,
+h2 {
+	font-weight: 600;
 }
