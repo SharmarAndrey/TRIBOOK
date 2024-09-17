@@ -10,208 +10,169 @@
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="/">Apartment Rental</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-					<% if (!isAuthenticated) { %>
-						<li class="nav-item">
-							<a class="nav-link" href="/login">Login</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/register">Register</a>
-						</li>
-						<% } else { %>
-							<li class="nav-item">
-								<span class="navbar-text">Hello, <%= username %>!</span>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/logout">Logout</a>
-							</li>
-							<% if (isAdmin) { %>
-								<li class="nav-item">
-									<a class="nav-link" href="/admin/apartment/new-apartment">New Apartment</a>
-								</li>
-								<% } %>
-									<% } %>
-										<!-- Dark Mode Toggle -->
-										<li class="nav-item">
-											<div id="darkModeToggle" class="dark-mode-toggle">
-												<img src="https://cdn-icons-png.flaticon.com/512/3073/3073665.png"
-													alt="Toggle Dark Mode" width="32px">
-											</div>
-										</li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<%- include('./partials/navbar') %>
 
-	<main class="container mt-5">
-		<h1>Add New Apartment</h1>
-		<form action="/admin/apartment/new-apartment" method="POST" class="row g-3">
-			<div class="col-md-6">
-				<label for="title" class="form-label">Apartment Title</label>
-				<input type="text" id="title" name="title" required placeholder="Enter apartment title"
-					class="form-control">
-			</div>
-
-			<div class="col-md-12">
-				<label for="description" class="form-label">Description</label>
-				<textarea id="description" name="description" required placeholder="Enter apartment description"
-					class="form-control" rows="4"></textarea>
-			</div>
-
-			<div class="col-md-12">
-				<label for="rules" class="form-label">Rules</label>
-				<textarea id="rules" name="rules" required placeholder="Enter apartment rules" class="form-control"
-					rows="4"></textarea>
-			</div>
-
-			<div class="col-md-4">
-				<label for="rooms" class="form-label">Number of Rooms</label>
-				<input type="number" id="rooms" name="rooms" required placeholder="Enter number of rooms" min="1"
-					class="form-control">
-			</div>
-
-			<div class="col-md-4">
-				<label for="beds" class="form-label">Number of Beds</label>
-				<input type="number" id="beds" name="beds" required placeholder="Enter number of beds" min="1"
-					class="form-control">
-			</div>
-
-			<div class="col-md-4">
-				<label for="bathrooms" class="form-label">Number of Bathrooms</label>
-				<input type="number" id="bathrooms" name="bathrooms" required placeholder="Enter number of bathrooms"
-					min="1" class="form-control">
-			</div>
-
-			<div class="col-md-6">
-				<label for="photos" class="form-label">Photo URLs (comma separated)</label>
-				<input type="text" id="photos" name="photos" required placeholder="Enter photo URLs separated by commas"
-					class="form-control">
-			</div>
-
-			<div class="col-md-6">
-				<label for="mainPhoto" class="form-label">Main Photo URL</label>
-				<input type="url" id="mainPhoto" name="mainPhoto" required placeholder="Enter URL of the main photo"
-					class="form-control">
-			</div>
-
-			<div class="col-md-6">
-				<label for="price" class="form-label">Price per Day</label>
-				<input type="number" id="price" name="price" required placeholder="Enter price per night" min="1"
-					class="form-control">
-			</div>
-
-			<div class="col-md-6">
-				<label for="maxPersons" class="form-label">Max Persons</label>
-				<input type="number" id="maxPersons" name="maxPersons" required placeholder="Enter max persons" min="1"
-					class="form-control">
-			</div>
-
-			<div class="col-md-6">
-				<label for="size" class="form-label">Size (in sqm)</label>
-				<input type="number" id="size" name="size" required placeholder="Enter size in square meters" min="1"
-					class="form-control">
-			</div>
-
-			<fieldset class="col-md-12">
-				<legend>Services</legend>
-				<div class="form-check">
-					<input type="checkbox" id="wifi" name="wifi" class="form-check-input">
-					<label class="form-check-label" for="wifi">WiFi</label>
+		<main class="container mt-5">
+			<h1>Add New Apartment</h1>
+			<form action="/admin/apartment/new-apartment" method="POST" class="row g-3">
+				<div class="col-md-6">
+					<label for="title" class="form-label">Apartment Title</label>
+					<input type="text" id="title" name="title" required placeholder="Enter apartment title"
+						class="form-control">
 				</div>
-				<div class="form-check">
-					<input type="checkbox" id="airConditioner" name="airConditioner" class="form-check-input">
-					<label class="form-check-label" for="airConditioner">Air Conditioner</label>
-				</div>
-				<div class="form-check">
-					<input type="checkbox" id="kitchen" name="kitchen" class="form-check-input">
-					<label class="form-check-label" for="kitchen">Kitchen</label>
-				</div>
-				<div class="form-check">
-					<input type="checkbox" id="disability" name="disability" class="form-check-input">
-					<label class="form-check-label" for="disability">Disability Access</label>
-				</div>
-				<div class="form-check">
-					<input type="checkbox" id="heater" name="heater" class="form-check-input">
-					<label class="form-check-label" for="heater">Heater</label>
-				</div>
-				<div class="form-check">
-					<input type="checkbox" id="tv" name="tv" class="form-check-input">
-					<label class="form-check-label" for="tv">TV</label>
-				</div>
-			</fieldset>
 
-			<div class="col-md-6">
-				<label for="province" class="form-label">Province</label>
-				<input type="text" id="province" name="province" required placeholder="Enter province"
-					class="form-control">
-			</div>
+				<div class="col-md-12">
+					<label for="description" class="form-label">Description</label>
+					<textarea id="description" name="description" required placeholder="Enter apartment description"
+						class="form-control" rows="4"></textarea>
+				</div>
 
-			<div class="col-md-6">
-				<label for="city" class="form-label">City</label>
-				<input type="text" id="city" name="city" required placeholder="Enter city" class="form-control">
-			</div>
+				<div class="col-md-12">
+					<label for="rules" class="form-label">Rules</label>
+					<textarea id="rules" name="rules" required placeholder="Enter apartment rules" class="form-control"
+						rows="4"></textarea>
+				</div>
 
-			<div class="col-md-6">
-				<label for="gps" class="form-label">GPS Coordinates</label>
-				<input type="text" id="gps" name="gps" placeholder="Enter GPS coordinates" class="form-control">
-			</div>
+				<div class="col-md-4">
+					<label for="rooms" class="form-label">Number of Rooms</label>
+					<input type="number" id="rooms" name="rooms" required placeholder="Enter number of rooms" min="1"
+						class="form-control">
+				</div>
 
-			<fieldset class="col-md-12">
-				<legend>Available Dates</legend>
-				<div class="row">
-					<div class="col-md-6">
-						<label for="startDate" class="form-label">Start Date:</label>
-						<input type="date" id="startDate" name="startDate" class="form-control">
+				<div class="col-md-4">
+					<label for="beds" class="form-label">Number of Beds</label>
+					<input type="number" id="beds" name="beds" required placeholder="Enter number of beds" min="1"
+						class="form-control">
+				</div>
+
+				<div class="col-md-4">
+					<label for="bathrooms" class="form-label">Number of Bathrooms</label>
+					<input type="number" id="bathrooms" name="bathrooms" required
+						placeholder="Enter number of bathrooms" min="1" class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					<label for="photos" class="form-label">Photo URLs (comma separated)</label>
+					<input type="text" id="photos" name="photos" required
+						placeholder="Enter photo URLs separated by commas" class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					<label for="mainPhoto" class="form-label">Main Photo URL</label>
+					<input type="url" id="mainPhoto" name="mainPhoto" required placeholder="Enter URL of the main photo"
+						class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					<label for="price" class="form-label">Price per Day</label>
+					<input type="number" id="price" name="price" required placeholder="Enter price per night" min="1"
+						class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					<label for="maxPersons" class="form-label">Max Persons</label>
+					<input type="number" id="maxPersons" name="maxPersons" required placeholder="Enter max persons"
+						min="1" class="form-control">
+				</div>
+
+				<div class="col-md-6">
+					<label for="size" class="form-label">Size (in sqm)</label>
+					<input type="number" id="size" name="size" required placeholder="Enter size in square meters"
+						min="1" class="form-control">
+				</div>
+
+				<fieldset class="col-md-12">
+					<legend>Services</legend>
+					<div class="form-check">
+						<input type="checkbox" id="wifi" name="wifi" class="form-check-input">
+						<label class="form-check-label" for="wifi">WiFi</label>
 					</div>
-					<div class="col-md-6">
-						<label for="endDate" class="form-label">End Date:</label>
-						<input type="date" id="endDate" name="endDate" class="form-control">
+					<div class="form-check">
+						<input type="checkbox" id="airConditioner" name="airConditioner" class="form-check-input">
+						<label class="form-check-label" for="airConditioner">Air Conditioner</label>
 					</div>
+					<div class="form-check">
+						<input type="checkbox" id="kitchen" name="kitchen" class="form-check-input">
+						<label class="form-check-label" for="kitchen">Kitchen</label>
+					</div>
+					<div class="form-check">
+						<input type="checkbox" id="disability" name="disability" class="form-check-input">
+						<label class="form-check-label" for="disability">Disability Access</label>
+					</div>
+					<div class="form-check">
+						<input type="checkbox" id="heater" name="heater" class="form-check-input">
+						<label class="form-check-label" for="heater">Heater</label>
+					</div>
+					<div class="form-check">
+						<input type="checkbox" id="tv" name="tv" class="form-check-input">
+						<label class="form-check-label" for="tv">TV</label>
+					</div>
+				</fieldset>
+
+				<div class="col-md-6">
+					<label for="province" class="form-label">Province</label>
+					<input type="text" id="province" name="province" required placeholder="Enter province"
+						class="form-control">
 				</div>
 
-				<button type="button" id="addDateRange" class="btn btn-secondary mt-2">Add Date Range</button>
-				<ul id="dateRangesList" class="list-unstyled mt-2"></ul>
-				<input type="hidden" id="availableDates" name="availableDates">
-			</fieldset>
+				<div class="col-md-6">
+					<label for="city" class="form-label">City</label>
+					<input type="text" id="city" name="city" required placeholder="Enter city" class="form-control">
+				</div>
 
-			<div class="col-md-12 d-flex justify-content-end">
-				<button type="submit" class="btn btn-primary">Add Apartment</button>
-			</div>
-		</form>
-	</main>
+				<div class="col-md-6">
+					<label for="gps" class="form-label">GPS Coordinates</label>
+					<input type="text" id="gps" name="gps" placeholder="Enter GPS coordinates" class="form-control">
+				</div>
 
-	<script>
-		document.getElementById('addDateRange').addEventListener('click', function () {
-			const startDate = document.getElementById('startDate').value;
-			const endDate = document.getElementById('endDate').value;
+				<fieldset class="col-md-12">
+					<legend>Available Dates</legend>
+					<div class="row">
+						<div class="col-md-6">
+							<label for="startDate" class="form-label">Start Date:</label>
+							<input type="date" id="startDate" name="startDate" class="form-control">
+						</div>
+						<div class="col-md-6">
+							<label for="endDate" class="form-label">End Date:</label>
+							<input type="date" id="endDate" name="endDate" class="form-control">
+						</div>
+					</div>
 
-			if (startDate && endDate) {
-				const dateRangesList = document.getElementById('dateRangesList');
-				const listItem = document.createElement('li');
-				listItem.textContent = `${startDate} to ${endDate}`;
-				dateRangesList.appendChild(listItem);
+					<button type="button" id="addDateRange" class="btn btn-secondary mt-2">Add Date Range</button>
+					<ul id="dateRangesList" class="list-unstyled mt-2"></ul>
+					<input type="hidden" id="availableDates" name="availableDates">
+				</fieldset>
 
-				const availableDatesInput = document.getElementById('availableDates');
-				const currentDates = availableDatesInput.value ? JSON.parse(availableDatesInput.value) : [];
-				currentDates.push({ startDate, endDate });
-				availableDatesInput.value = JSON.stringify(currentDates);
+				<div class="col-md-12 d-flex justify-content-end">
+					<button type="submit" class="btn btn-primary">Add Apartment</button>
+				</div>
+			</form>
+		</main>
 
-				document.getElementById('startDate').value = '';
-				document.getElementById('endDate').value = '';
-			} else {
-				alert('Please select both a start date and an end date.');
-			}
-		});
-	</script>
-	<script src="/main.js"></script>
+		<script>
+			document.getElementById('addDateRange').addEventListener('click', function () {
+				const startDate = document.getElementById('startDate').value;
+				const endDate = document.getElementById('endDate').value;
+
+				if (startDate && endDate) {
+					const dateRangesList = document.getElementById('dateRangesList');
+					const listItem = document.createElement('li');
+					listItem.textContent = `${startDate} to ${endDate}`;
+					dateRangesList.appendChild(listItem);
+
+					const availableDatesInput = document.getElementById('availableDates');
+					const currentDates = availableDatesInput.value ? JSON.parse(availableDatesInput.value) : [];
+					currentDates.push({ startDate, endDate });
+					availableDatesInput.value = JSON.stringify(currentDates);
+
+					document.getElementById('startDate').value = '';
+					document.getElementById('endDate').value = '';
+				} else {
+					alert('Please select both a start date and an end date.');
+				}
+			});
+		</script>
+		<script src="/main.js"></script>
 </body>
 
 </html>
