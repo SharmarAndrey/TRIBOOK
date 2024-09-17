@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+	<div class="container">
+		<a class="navbar-brand" href="/">
+			<img src="/images/logo.png" alt="TRIBOOK" width="30" height="30" class="d-inline-block align-text-top">
+			<span class="ms-2">TRIBOOK</span>
+		</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+			aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+			<ul class="navbar-nav align-items-center">
+				<% if (!isAuthenticated) { %>
+					<li class="nav-item">
+						<a class="nav-link" href="/login"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/register"><i class="fas fa-user-plus me-1"></i> Register</a>
+					</li>
+					<% } else { %>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="fas fa-user-circle me-1"></i>
+								<%= username %>
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="userDropdown">
+								<% if (isAdmin) { %>
+									<li><a class="dropdown-item" href="/admin/apartment/new-apartment"><i
+												class="fas fa-plus-circle me-1"></i> Nuevo Apartamento</a></li>
+									<% } %>
+										<li><a class="dropdown-item" href="/logout"><i
+													class="fas fa-sign-out-alt me-1"></i> Logout</a></li>
+							</ul>
+						</li>
+						<% } %>
+							<li class="nav-item">
+								<button id="darkModeToggle" class="btn btn-link nav-link">
+									<i class="fas fa-moon"></i>
+								</button>
+							</li>
+			</ul>
+		</div>
+	</div>
+</nav>
