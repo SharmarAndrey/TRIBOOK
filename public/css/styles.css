@@ -1,4 +1,13 @@
-/* Base Styling */
+/* Общие Стили */
+
+:root {
+	--primary-color: #00b4db;
+	--primary-dark: #0083b0;
+	--secondary-color: #6c757d;
+	--background-color: #f0f2f5;
+	--text-color: #343a40;
+	--hero-bg: url("/images/hero-bg.jpg"); /* Путь к вашему фоновому изображению */
+}
 
 html,
 body {
@@ -7,8 +16,8 @@ body {
 
 body {
 	font-family: "Montserrat", sans-serif;
-	background-color: #f8f9fa;
-	color: #343a40;
+	background-color: var(--background-color);
+	color: var(--text-color);
 	transition:
 		background-color 0.3s ease,
 		color 0.3s ease;
@@ -17,42 +26,58 @@ body {
 }
 
 body.dark-mode {
-	background-color: #1c1c1c;
+	background-color: #121212;
 	color: #e9ecef;
 }
 
 /* Navbar */
+
 .navbar {
+	background-color: #ffffff;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 	transition: background-color 0.3s ease;
 }
 
 .navbar-brand span {
-	font-weight: 600;
-	font-size: 1.2rem;
+	font-weight: 700;
+	font-size: 1.3rem;
+	color: var(--primary-color);
 }
 
 .navbar-nav .nav-link {
 	font-size: 1rem;
+	color: #343a40;
+	transition: color 0.3s ease;
 }
 
-.navbar-dark .navbar-nav .nav-link {
-	color: #ffffff;
-}
-
-.navbar-dark .navbar-nav .nav-link:hover {
-	color: #adb5bd;
+.navbar-nav .nav-link:hover {
+	color: var(--primary-color);
 }
 
 body.dark-mode .navbar {
-	background-color: #343a40;
+	background-color: #1f1f1f;
 }
 
-/* Hero Section */
+body.dark-mode .navbar-nav .nav-link {
+	color: #e9ecef;
+}
+
+body.dark-mode .navbar-nav .nav-link:hover {
+	color: var(--primary-color);
+}
+
+/* Секция Hero */
+
 .hero-section {
 	position: relative;
-	background: url("/images/hero-bg.jpg") center center/cover no-repeat;
+	background: var(--hero-bg) center center/cover no-repeat;
 	height: 70vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #ffffff;
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+	transition: background 0.3s ease;
 }
 
 .hero-section .overlay {
@@ -61,8 +86,8 @@ body.dark-mode .navbar {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	/* background: rgba(0, 0, 0, 0.6); */
-	/* background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7)); */
+
+	transition: background 0.3s ease;
 }
 
 .hero-section .container {
@@ -70,51 +95,93 @@ body.dark-mode .navbar {
 	z-index: 2;
 }
 
-.hero-section h1,
-.hero-section p {
-	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-}
-.hero-section h1 {
-	font-size: 3rem; /* Make headline larger */
+.hero-title {
+	font-size: 3rem;
+	font-weight: 700;
+	letter-spacing: 1px;
 }
 
-.hero-section p {
-	font-size: 1.2rem; /* Increase subtitle font size */
+.hero-subtitle {
+	font-size: 1.2rem;
+	margin-top: 1rem;
 }
 
 .hero-section .btn {
-	margin-top: 2rem; /* Add more spacing between button and text */
+	margin-top: 2rem;
 }
+
+/* Темный режим для Hero Section */
 
 body.dark-mode .hero-section .overlay {
-	background: rgba(0, 0, 0, 0.8);
+	background: rgba(0, 0, 0, 0.6);
 }
 
-/* Buttons */
-.btn {
-	border-radius: 50px;
-	font-size: 1rem;
-	padding: 0.6rem 1.2rem;
-	transition: all 0.3s ease-in-out;
-	font-weight: 600;
+body.dark-mode .hero-title,
+body.dark-mode .hero-subtitle {
+	color: #e9ecef;
 }
+
+/* Заголовки */
+
+.reservation-title {
+	font-weight: 700;
+	letter-spacing: 1px;
+	color: var(--primary-color);
+}
+
+/* Карточка Бронирования */
+
+.reservation-card {
+	background: #ffffff;
+	border-radius: 20px;
+	transition:
+		background 0.3s ease,
+		box-shadow 0.3s ease;
+}
+
+body.dark-mode .reservation-card {
+	background: #1f1f1f;
+}
+
+.reservation-card h3 {
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+}
+
+.reservation-card p {
+	margin-bottom: 0;
+}
+
+.reservation-card a.text-decoration-none {
+	color: var(--primary-color);
+}
+
+.reservation-card a.text-decoration-none:hover {
+	text-decoration: underline;
+}
+
+/* Кнопки */
 
 .btn-primary {
-	background: linear-gradient(45deg, #00b4db, #0083b0);
-	color: white;
+	background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
 	border: none;
+	border-radius: 50px;
+	padding: 0.6rem 1.5rem;
+	transition: all 0.3s ease-in-out;
 }
 
 .btn-primary:hover {
-	background: linear-gradient(45deg, #0083b0, #005f73);
+	background: linear-gradient(45deg, var(--primary-dark), #005f73);
 	box-shadow: 0 8px 20px rgba(0, 180, 219, 0.3);
 	transform: translateY(-3px);
 }
 
 .btn-secondary {
 	background: linear-gradient(45deg, #6c757d, #495057);
-	color: white;
 	border: none;
+	border-radius: 50px;
+	padding: 0.6rem 1.5rem;
+	transition: all 0.3s ease-in-out;
 }
 
 .btn-secondary:hover {
@@ -123,40 +190,71 @@ body.dark-mode .hero-section .overlay {
 	transform: translateY(-3px);
 }
 
-.btn-danger {
-	background: linear-gradient(45deg, #e63946, #d62828);
-	color: white;
+.btn-info {
+	background: #17a2b8;
 	border: none;
+	border-radius: 50px;
+	padding: 0.4rem 1rem;
+	transition:
+		background 0.3s ease,
+		transform 0.3s ease;
 }
 
-.btn-danger:hover {
-	background: linear-gradient(45deg, #d62828, #a4161a);
-	box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
-	transform: translateY(-3px);
+.btn-info:hover {
+	background: #138496;
+	transform: scale(1.05);
 }
 
-/* General Button Styles */
-.btn:focus {
-	outline: none;
-	box-shadow: none;
+/* Кнопки в темном режиме */
+
+body.dark-mode .btn-primary {
+	background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
 }
 
-.btn:active {
-	transform: translateY(0);
-	box-shadow: none;
+body.dark-mode .btn-secondary {
+	background: linear-gradient(45deg, #495057, #343a40);
 }
 
-/* Cards */
+/* Футер */
+
+footer {
+	background-color: #343a40;
+	color: #e9ecef;
+	padding: 20px;
+	text-align: center;
+	margin-top: auto;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease;
+}
+
+footer a {
+	color: #adb5bd;
+	text-decoration: none;
+	transition: color 0.3s ease;
+}
+
+footer a:hover {
+	color: #ffffff;
+}
+
+body.dark-mode footer {
+	background-color: #1c1c1c;
+}
+
+body.dark-mode footer a {
+	color: #e9ecef;
+}
+
+/* Карточки Квартир */
+
 .apartment-card {
-	border-radius: 12px;
+	border-radius: 15px;
 	box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
 	transition:
 		transform 0.3s ease,
 		box-shadow 0.3s ease;
-	overflow: hidden;
 	background-color: #ffffff;
-	/* 
-	padding: 1.5rem; */
 }
 
 .apartment-card:hover {
@@ -168,6 +266,8 @@ body.dark-mode .hero-section .overlay {
 	background-size: cover;
 	background-position: center;
 	height: 200px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
 }
 
 body.dark-mode .apartment-card {
@@ -179,34 +279,38 @@ body.dark-mode .apartment-card .card-text {
 	color: #e9ecef;
 }
 
-/* Form Styling */
+/* Формы */
+
 input[type="number"],
 input[type="date"],
 select {
-	padding: 12px;
+	padding: 12px 20px;
 	border-radius: 50px;
 	border: 1px solid #ced4da;
 	transition:
 		border-color 0.3s ease,
 		box-shadow 0.3s ease;
 	width: 100%;
+	font-size: 1rem;
 }
 
 input:focus,
 select:focus {
 	outline: none;
-	border-color: #00b4db;
+	border-color: var(--primary-color);
 	box-shadow: 0 4px 8px rgba(0, 180, 219, 0.1);
 }
 
-/* Service Icons */
+/* Иконки Сервисов */
+
 .card .fa {
 	font-size: 1.2rem;
-	color: #00b4db;
+	color: var(--primary-color);
 	margin-right: 10px;
 }
 
-/* Animations */
+/* Анимации */
+
 .fade-in {
 	opacity: 0;
 	animation: fadeIn 0.5s forwards;
@@ -227,90 +331,105 @@ select:focus {
 	opacity: 1;
 }
 
-/* Dark Mode Toggle */
+/* Переключатель Темного Режима */
+
 #darkModeToggle i {
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 	color: #ffffff;
+	transition: color 0.3s ease;
 }
 
 body.dark-mode #darkModeToggle i {
 	color: #e9ecef;
 }
 
-/* Footer */
-footer {
-	background-color: #343a40;
-	color: #e9ecef;
-	padding: 20px;
-	text-align: center;
-	margin-top: auto;
-}
+/* Адаптивные Изменения */
 
-footer a {
-	color: #adb5bd;
-	text-decoration: none;
-}
-
-footer a:hover {
-	color: white;
-}
-
-body.dark-mode footer {
-	background-color: #1c1c1c;
-	color: #e9ecef;
-}
-
-body.dark-mode footer a {
-	color: #e9ecef;
-}
-
-/* Responsive Adjustments */
 @media (max-width: 576px) {
 	.navbar-brand {
 		font-size: 1.1rem;
 	}
+
+	.hero-title {
+		font-size: 2.5rem;
+	}
+
+	.hero-subtitle {
+		font-size: 1rem;
+	}
+
+	.reservation-title {
+		font-size: 2rem;
+	}
+
+	.reservation-card {
+		padding: 2rem;
+	}
+
+	.btn {
+		width: 100%;
+		text-align: center;
+	}
 }
 
-/* Additional Styles */
+/* Дополнительные Стили */
+
 h1,
-h2 {
+h2,
+h3 {
 	font-weight: 600;
 }
 
 #search {
-	margin-top: 3rem; /* Reduce margin to bring search section up */
+	margin-top: 3rem;
 }
+
 .allRights {
 	background-color: #3487b3;
 }
-/* Styles for table*/
+
 .table {
-	background-color: #fff;
+	background-color: #ffffff;
 	border-radius: 8px;
 	overflow: hidden;
 	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .table th {
-	background-color: #007bff;
+	background-color: var(--primary-color);
 	color: white;
+	text-align: center;
 }
 
 .table td {
 	font-size: 0.9rem;
 	color: #333;
+	text-align: center;
 }
 
 .table-hover tbody tr:hover {
 	background-color: #f1f1f1;
 }
 
-/* Стили для кнопки "Cancel" */
 .btn-danger {
 	background-color: #dc3545;
 	border: none;
+	border-radius: 50px;
+	padding: 0.6rem 1.5rem;
+	transition:
+		background-color 0.3s ease,
+		transform 0.3s ease;
 }
 
 .btn-danger:hover {
 	background-color: #c82333;
+	transform: translateY(-3px);
+}
+
+body.dark-mode .btn-danger {
+	background-color: #bb2d3b;
+}
+
+body.dark-mode .btn-danger:hover {
+	background-color: #a71d2a;
 }
