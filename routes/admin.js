@@ -20,6 +20,8 @@ router.post('/apartment/:id', isAdmin, adminControllers.updateApartment);
 router.post('/apartment/:id/delete', isAdmin, adminControllers.deleteApartment);
 router.get('/reservations', isAdmin, adminControllers.getReservations);
 router.post('/reservations/cancel/:reservationId', isAdmin, adminControllers.cancelReservation);
+router.get('/reservations/:id', isAdmin, adminControllers.getReservationDetails);
+
 
 module.exports = router;
 

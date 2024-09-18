@@ -154,7 +154,22 @@ const cancelReservation = async (req, res) => {
 	}
 };
 
+const getReservationDetails = async (req, res) => {
+	try {
+		const reservation = await Reservation.findById(req.params.id).populate('apartment');
+		if (!reservation) {
+			return res.status(404).send('Reservation not found');
+		}
+		res.render('reservation-details', { reservation });
+	} catch (error) {
+		console.error('Error fetching reservation details:', error);
+		res.status(500).send('Error fetching reservation details');
+	}
+};
+
+
 module.exports = {
+	getReservationDetails,
 	getReservations,
 	cancelReservation,
 	getNewApartmentForm,

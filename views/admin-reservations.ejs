@@ -52,6 +52,11 @@
 									<%= new Date(reservation.endDate).toLocaleDateString() %>
 								</td>
 								<td>
+									<!-- button for reservation details-->
+									<a href="/admin/reservations/<%= reservation._id %>"
+										class="btn btn-info">Details</a>
+
+
 									<form action="/admin/reservations/cancel/<%= reservation._id %>" method="POST">
 										<button type="submit" class="btn btn-danger">Cancel</button>
 									</form>
