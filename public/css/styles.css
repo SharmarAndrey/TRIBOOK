@@ -1,4 +1,10 @@
 /* Base Styling */
+
+html,
+body {
+	height: 100%;
+}
+
 body {
 	font-family: "Montserrat", sans-serif;
 	background-color: #f8f9fa;
@@ -235,6 +241,9 @@ body.dark-mode #darkModeToggle i {
 footer {
 	background-color: #343a40;
 	color: #e9ecef;
+	padding: 20px;
+	text-align: center;
+	margin-top: auto;
 }
 
 footer a {
@@ -243,7 +252,7 @@ footer a {
 }
 
 footer a:hover {
-	color: #ffffff;
+	color: white;
 }
 
 body.dark-mode footer {
@@ -273,4 +282,35 @@ h2 {
 }
 .allRights {
 	background-color: #3487b3;
+}
+/* Styles for table*/
+.table {
+	background-color: #fff;
+	border-radius: 8px;
+	overflow: hidden;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+	background-color: #007bff;
+	color: white;
+}
+
+.table td {
+	font-size: 0.9rem;
+	color: #333;
+}
+
+.table-hover tbody tr:hover {
+	background-color: #f1f1f1;
+}
+
+/* Стили для кнопки "Cancel" */
+.btn-danger {
+	background-color: #dc3545;
+	border: none;
+}
+
+.btn-danger:hover {
+	background-color: #c82333;
 }

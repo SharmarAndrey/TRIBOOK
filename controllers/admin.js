@@ -1,3 +1,4 @@
+const Reservation = require('../models/reservation.model');
 const Apartment = require('../models/apartment.model');
 
 const getNewApartmentForm = (req, res) => {
@@ -120,7 +121,42 @@ const deleteApartment = async (req, res) => {
 	}
 };
 
+// Controller to get all reservations
+const getReservations = async (req, res) => {
+	try {
+		const reservations = await Reservation.find().populate('apartment');
+		res.render('admin-reservations', { reservations });
+	} catch (error) {
+		console.error('Error fetching reservations:', error);
+		res.status(500).send('Error fetching reservations');
+	}
+};
+
+
+// Controller to cancel a reservation
+const cancelReservation = async (req, res) => {
+	try {
+		const reservationId = req.params.reservationId;
+		await Reservation.findByIdAndDelete(reservationId);
+
+		req.session.messages.push({
+			type: 'success',
+			text: 'Reservation canceled successfully.'
+		});
+
+		res.redirect('/admin/reservations');
+	} catch (error) {
+		req.session.messages.push({
+			type: 'danger',
+			text: 'Error canceling reservation: ' + error.message
+		});
+		res.redirect('/admin/reservations');
+	}
+};
+
 module.exports = {
+	getReservations,
+	cancelReservation,
 	getNewApartmentForm,
 	createNewApartment,
 	getEditApartmentForm,
