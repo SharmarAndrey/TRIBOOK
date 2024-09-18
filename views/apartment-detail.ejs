@@ -29,142 +29,151 @@
 			<h1 class="mb-4 text-center">
 				<%= apartment.title %>
 			</h1>
-
-			<!-- Apartment Images Carousel -->
-			<div id="apartmentCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
-				<div class="carousel-inner">
-					<% apartment.photos.forEach((photo, index)=> { %>
-						<div class="carousel-item <%= index === 0 ? 'active' : '' %>">
-							<img src="<%= photo %>" class="d-block w-100" alt="Apartment Photo">
-						</div>
-						<% }) %>
-				</div>
-				<button class="carousel-control-prev" type="button" data-bs-target="#apartmentCarousel"
-					data-bs-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Previous</span>
-				</button>
-				<button class="carousel-control-next" type="button" data-bs-target="#apartmentCarousel"
-					data-bs-slide="next">
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Next</span>
-				</button>
-			</div>
-
-			<div class="row">
-				<div class="col-md-8">
-					<h3>Description</h3>
-					<p>
-						<%= apartment.description %>
-					</p>
-
-					<h3>Rules</h3>
-					<p>
-						<%= apartment.rules %>
-					</p>
-
-					<h3>Details</h3>
-					<ul class="list-unstyled">
-						<li><strong>Rooms:</strong>
-							<%= apartment.rooms %>
-						</li>
-						<li><strong>Beds:</strong>
-							<%= apartment.beds %>
-						</li>
-						<li><strong>Bathrooms:</strong>
-							<%= apartment.bathrooms %>
-						</li>
-						<li><strong>Size:</strong>
-							<%= apartment.size %> sqm
-						</li>
-						<li><strong>Max Persons:</strong>
-							<%= apartment.maxPersons %>
-						</li>
-						<li><strong>Price per night:</strong> $<%= apartment.price %>
-						</li>
-					</ul>
-
-					<h3>Services</h3>
-					<div>
-						<% if (apartment.services.wifi) { %>
-							<span class="badge bg-primary me-2"><i class="fas fa-wifi me-1"></i> WiFi</span>
-							<% } %>
-								<% if (apartment.services.airConditioner) { %>
-									<span class="badge bg-primary me-2"><i class="fas fa-snowflake me-1"></i> Air
-										Conditioner</span>
-									<% } %>
-										<% if (apartment.services.kitchen) { %>
-											<span class="badge bg-primary me-2"><i class="fas fa-utensils me-1"></i>
-												Kitchen</span>
-											<% } %>
-												<% if (apartment.services.disability) { %>
-													<span class="badge bg-primary me-2"><i
-															class="fas fa-wheelchair me-1"></i> Disability Access</span>
-													<% } %>
-														<% if (apartment.services.heater) { %>
-															<span class="badge bg-primary me-2"><i
-																	class="fas fa-thermometer-half me-1"></i>
-																Heater</span>
-															<% } %>
-																<% if (apartment.services.tv) { %>
-																	<span class="badge bg-primary me-2"><i
-																			class="fas fa-tv me-1"></i> TV</span>
-																	<% } %>
-					</div>
-
-					<h3 class="mt-4">Available Dates</h3>
-					<% if (apartment.availableDates && apartment.availableDates.length> 0) { %>
-						<ul>
-							<% apartment.availableDates.forEach(dateRange=> { %>
-								<li>
-									<%= new Date(dateRange.startDate).toLocaleDateString() %> to <%= new
-											Date(dateRange.endDate).toLocaleDateString() %>
-								</li>
+			<% if (!apartment.isActive && !isAdmin) { %>
+				<p>Este apartamento no está disponible actualmente.</p>
+				<% } else { %>
+					<!-- Apartment Images Carousel -->
+					<div id="apartmentCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+						<div class="carousel-inner">
+							<% apartment.photos.forEach((photo, index)=> { %>
+								<div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+									<img src="<%= photo %>" class="d-block w-100" alt="Apartment Photo">
+								</div>
 								<% }) %>
-						</ul>
-						<% } else { %>
-							<p>No available dates.</p>
-							<% } %>
-				</div>
-				<div class="col-md-4">
-
-					<h3>Book this Apartment</h3>
-					<form action="/apartment/new-reservation" method="POST" class="p-4 bg-light rounded">
-
-						<input type="hidden" name="apartmentId" value="<%= apartment._id %>">
-						<div class="mb-3">
-							<label for="email" class="form-label">Email:</label>
-							<input type="email" id="email" name="email" required class="form-control"
-								placeholder="Enter your email">
 						</div>
-						<div class="mb-3">
-							<label for="startDate" class="form-label">Start Date:</label>
-							<input type="date" id="startDate" name="startDate" required class="form-control">
+						<button class="carousel-control-prev" type="button" data-bs-target="#apartmentCarousel"
+							data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button>
+						<button class="carousel-control-next" type="button" data-bs-target="#apartmentCarousel"
+							data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
+					</div>
+					<p><strong>Estado:</strong>
+						<%= apartment.isActive ? 'Disponible' : 'No disponible' %>
+					</p>
+					<div class="row">
+						<div class="col-md-8">
+							<h3>Description</h3>
+							<p>
+								<%= apartment.description %>
+							</p>
+
+							<h3>Rules</h3>
+							<p>
+								<%= apartment.rules %>
+							</p>
+
+							<h3>Details</h3>
+							<ul class="list-unstyled">
+								<li><strong>Rooms:</strong>
+									<%= apartment.rooms %>
+								</li>
+								<li><strong>Beds:</strong>
+									<%= apartment.beds %>
+								</li>
+								<li><strong>Bathrooms:</strong>
+									<%= apartment.bathrooms %>
+								</li>
+								<li><strong>Size:</strong>
+									<%= apartment.size %> sqm
+								</li>
+								<li><strong>Max Persons:</strong>
+									<%= apartment.maxPersons %>
+								</li>
+								<li><strong>Price per night:</strong> $<%= apartment.price %>
+								</li>
+							</ul>
+
+							<h3>Services</h3>
+							<div>
+								<% if (apartment.services.wifi) { %>
+									<span class="badge bg-primary me-2"><i class="fas fa-wifi me-1"></i> WiFi</span>
+									<% } %>
+										<% if (apartment.services.airConditioner) { %>
+											<span class="badge bg-primary me-2"><i class="fas fa-snowflake me-1"></i>
+												Air
+												Conditioner</span>
+											<% } %>
+												<% if (apartment.services.kitchen) { %>
+													<span class="badge bg-primary me-2"><i
+															class="fas fa-utensils me-1"></i>
+														Kitchen</span>
+													<% } %>
+														<% if (apartment.services.disability) { %>
+															<span class="badge bg-primary me-2"><i
+																	class="fas fa-wheelchair me-1"></i> Disability
+																Access</span>
+															<% } %>
+																<% if (apartment.services.heater) { %>
+																	<span class="badge bg-primary me-2"><i
+																			class="fas fa-thermometer-half me-1"></i>
+																		Heater</span>
+																	<% } %>
+																		<% if (apartment.services.tv) { %>
+																			<span class="badge bg-primary me-2"><i
+																					class="fas fa-tv me-1"></i>
+																				TV</span>
+																			<% } %>
+							</div>
+
+							<h3 class="mt-4">Available Dates</h3>
+							<% if (apartment.availableDates && apartment.availableDates.length> 0) { %>
+								<ul>
+									<% apartment.availableDates.forEach(dateRange=> { %>
+										<li>
+											<%= new Date(dateRange.startDate).toLocaleDateString() %> to <%= new
+													Date(dateRange.endDate).toLocaleDateString() %>
+										</li>
+										<% }) %>
+								</ul>
+								<% } else { %>
+									<p>No available dates.</p>
+									<% } %>
 						</div>
-						<div class="mb-3">
-							<label for="endDate" class="form-label">End Date:</label>
-							<input type="date" id="endDate" name="endDate" required class="form-control">
+						<div class="col-md-4">
+
+							<h3>Book this Apartment</h3>
+							<form action="/apartment/new-reservation" method="POST" class="p-4 bg-light rounded">
+
+								<input type="hidden" name="apartmentId" value="<%= apartment._id %>">
+								<div class="mb-3">
+									<label for="email" class="form-label">Email:</label>
+									<input type="email" id="email" name="email" required class="form-control"
+										placeholder="Enter your email">
+								</div>
+								<div class="mb-3">
+									<label for="startDate" class="form-label">Start Date:</label>
+									<input type="date" id="startDate" name="startDate" required class="form-control">
+								</div>
+								<div class="mb-3">
+									<label for="endDate" class="form-label">End Date:</label>
+									<input type="date" id="endDate" name="endDate" required class="form-control">
+								</div>
+
+								<button type="submit" class="btn btn-success w-100">Reserve</button>
+
+							</form>
+							<h3>Location</h3>
+							<ul class="list-unstyled">
+								<li><strong>Province:</strong>
+									<%= apartment.province %>
+								</li>
+								<li><strong>City:</strong>
+									<%= apartment.city %>
+								</li>
+								<li><strong>Coordinates:</strong>
+									<%= apartment.gps %>
+								</li>
+								<div id="map" style="height: 400px;"></div>
+							</ul>
+
 						</div>
-
-						<button type="submit" class="btn btn-success w-100">Reserve</button>
-
-					</form>
-					<h3>Location</h3>
-					<ul class="list-unstyled">
-						<li><strong>Province:</strong>
-							<%= apartment.province %>
-						</li>
-						<li><strong>City:</strong>
-							<%= apartment.city %>
-						</li>
-						<li><strong>Coordinates:</strong>
-							<%= apartment.gps %>
-						</li>
-						<div id="map" style="height: 400px;"></div>
-					</ul>
-
-				</div>
-			</div>
+					</div>
+					<% } %>
 		</main>
 
 		<!-- Footer -->

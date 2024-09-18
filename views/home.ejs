@@ -93,53 +93,64 @@
 								<h5 class="card-title">
 									<%= apartment.title %>
 								</h5>
-								<p class="card-text mb-1"><strong>Price per night:</strong> $<%= apartment.price %>
-								</p>
-								<p class="card-text mb-1"><strong>Size:</strong>
-									<%= apartment.size %> sqm
-								</p>
-								<p class="card-text mb-3"><strong>Max Persons:</strong>
-									<%= apartment.maxPersons %>
-								</p>
 
-								<!-- Services with Icons -->
-								<div class="mb-3">
-									<% if (apartment.services.wifi) { %>
-										<i class="fas fa-wifi me-2" title="WiFi"></i>
-										<% } %>
-											<% if (apartment.services.airConditioner) { %>
-												<i class="fas fa-snowflake me-2" title="Air Conditioner"></i>
-												<% } %>
-													<% if (apartment.services.kitchen) { %>
-														<i class="fas fa-utensils me-2" title="Kitchen"></i>
-														<% } %>
-															<% if (apartment.services.disability) { %>
-																<i class="fas fa-wheelchair me-2"
-																	title="Disability Access"></i>
-																<% } %>
-																	<% if (apartment.services.heater) { %>
-																		<i class="fas fa-thermometer-half me-2"
-																			title="Heater"></i>
-																		<% } %>
-																			<% if (apartment.services.tv) { %>
-																				<i class="fas fa-tv me-2"
-																					title="TV"></i>
-																				<% } %>
-								</div>
+								<p class="card-text mb-1">
+									<strong>Estado:</strong>
+									<%= apartment.isActive ? 'Disponible' : 'No disponible' %>
+								</p>
+								<!-- Mostrar detalles solo si el apartamento está activo o el usuario es administrador -->
+								<% if (apartment.isActive || isAdmin) { %>
+									<p class="card-text mb-1"><strong>Price per night:</strong> $<%= apartment.price %>
+									</p>
+									<p class="card-text mb-1"><strong>Size:</strong>
+										<%= apartment.size %> sqm
+									</p>
+									<p class="card-text mb-3"><strong>Max Persons:</strong>
+										<%= apartment.maxPersons %>
+									</p>
 
-								<div class="mt-auto">
-									<a href="/apartment/<%= apartment._id %>" class="btn btn-primary w-100 mb-2"><i
-											class="fas fa-info-circle me-1"></i> View Details</a>
-									<% if (isAdmin) { %>
-										<a href="/admin/apartment/<%= apartment._id %>/edit"
-											class="btn btn-secondary w-100 mb-2"><i class="fas fa-edit me-1"></i>
-											Edit</a>
-										<form action="/admin/apartment/<%= apartment._id %>/delete" method="POST">
-											<button type="submit" class="btn btn-danger w-100"><i
-													class="fas fa-trash-alt me-1"></i> Delete</button>
-										</form>
+
+									<!-- Services with Icons -->
+									<div class="mb-3">
+										<% if (apartment.services.wifi) { %>
+											<i class="fas fa-wifi me-2" title="WiFi"></i>
+											<% } %>
+												<% if (apartment.services.airConditioner) { %>
+													<i class="fas fa-snowflake me-2" title="Air Conditioner"></i>
+													<% } %>
+														<% if (apartment.services.kitchen) { %>
+															<i class="fas fa-utensils me-2" title="Kitchen"></i>
+															<% } %>
+																<% if (apartment.services.disability) { %>
+																	<i class="fas fa-wheelchair me-2"
+																		title="Disability Access"></i>
+																	<% } %>
+																		<% if (apartment.services.heater) { %>
+																			<i class="fas fa-thermometer-half me-2"
+																				title="Heater"></i>
+																			<% } %>
+																				<% if (apartment.services.tv) { %>
+																					<i class="fas fa-tv me-2"
+																						title="TV"></i>
+																					<% } %>
+									</div>
+
+									<div class="mt-auto">
+										<a href="/apartment/<%= apartment._id %>" class="btn btn-primary w-100 mb-2"><i
+												class="fas fa-info-circle me-1"></i> View Details</a>
+										<% if (isAdmin) { %>
+											<a href="/admin/apartment/<%= apartment._id %>/edit"
+												class="btn btn-secondary w-100 mb-2"><i class="fas fa-edit me-1"></i>
+												Edit</a>
+											<form action="/admin/apartment/<%= apartment._id %>/delete" method="POST">
+												<button type="submit" class="btn btn-danger w-100"><i
+														class="fas fa-trash-alt me-1"></i> Delete</button>
+											</form>
+											<% } %>
+									</div>
+									<% } else { %>
+										<p>Este apartamento no está disponible actualmente.</p>
 										<% } %>
-								</div>
 							</div>
 						</div>
 					</div>

@@ -131,6 +131,13 @@
 					<input type="text" id="gps" name="gps" value="<%= apartment.gps %>" class="form-control">
 				</div>
 
+				<div class="mb-3">
+					<label for="isActive" class="form-label">Estado del apartamento</label>
+					<select id="isActive" name="isActive" class="form-select">
+						<option value="true" <%=apartment.isActive ? 'selected' : '' %>>Disponible</option>
+						<option value="false" <%=!apartment.isActive ? 'selected' : '' %>>No disponible</option>
+					</select>
+				</div>
 				<fieldset>
 					<legend>Available Dates</legend>
 					<div class="mb-3">
@@ -144,10 +151,12 @@
 					<button type="button" id="addDateRange" class="btn btn-secondary">Add Date Range</button>
 
 					<ul id="dateRangesList" class="list-unstyled mt-2">
-						<% apartment.availableDates.forEach(dateRange=> { %>
-							<li>
+						<% apartment.availableDates.forEach((dateRange, index)=> { %>
+							<li data-index="<%= index %>">
 								<%= new Date(dateRange.startDate).toLocaleDateString() %> to <%= new
 										Date(dateRange.endDate).toLocaleDateString() %>
+										<button type="button"
+											class="btn btn-sm btn-danger remove-date-range">Eliminar</button>
 							</li>
 							<% }) %>
 					</ul>
@@ -181,6 +190,32 @@
 					document.getElementById('endDate').value = '';
 				} else {
 					alert('Please select both a start date and an end date.');
+				}
+			});
+			// Manejar la eliminación de fechas disponibles
+			document.getElementById('dateRangesList').addEventListener('click', function (e) {
+				if (e.target.classList.contains('remove-date-range')) {
+					const li = e.target.closest('li');
+					const index = li.getAttribute('data-index');
+
+					// Eliminar el rango de fechas de la lista visual
+					li.remove();
+
+					// Actualizar el campo oculto availableDates
+					const availableDatesInput = document.getElementById('availableDates');
+					let currentDates = availableDatesInput.value ? JSON.parse(availableDatesInput.value) : [];
+
+					// Eliminar el rango de fechas del arreglo
+					currentDates.splice(index, 1);
+
+					// Actualizar el campo oculto
+					availableDatesInput.value = JSON.stringify(currentDates);
+
+					// Actualizar los índices de los elementos restantes
+					const listItems = document.querySelectorAll('#dateRangesList li');
+					listItems.forEach((item, idx) => {
+						item.setAttribute('data-index', idx);
+					});
 				}
 			});
 		</script>

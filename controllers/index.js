@@ -3,26 +3,39 @@ const Reservation = require('../models/reservation.model');
 
 const getApartments = async (req, res) => {
 	try {
-		const apartments = await Apartment.find({ isActive: true });
+		let query = {};
+		// Si el usuario no es administrador, filtra por apartamentos activos
+		if (!req.session.isAdmin) {
+			query.isActive = true;
+		}
+
+		const apartments = await Apartment.find(query);
 		const provinces = await Apartment.distinct('province');
+
 		res.render('home', { apartments, provinces });
 	} catch (error) {
 		res.status(500).send('Error fetching apartments');
 	}
 };
 
+// indexControllers.js
 const searchApartments = async (req, res) => {
 	try {
 		const { maxPrice, city, province, maxPersons, availableDate, sortOrder } = req.query;
-		const query = { isActive: true };
+		let query = {};
 
-		// Only add these filters if values are provided
+		// Si el usuario no es administrador, filtra por apartamentos activos
+		if (!req.session.isAdmin) {
+			query.isActive = true;
+		}
+
+		// Aplica los filtros de búsqueda proporcionados
 		if (maxPrice) query.price = { $lte: maxPrice };
 		if (city) query.city = city;
 		if (province) query.province = province;
 		if (maxPersons) query.maxPersons = { $gte: maxPersons };
 
-		// Available date filter
+		// Filtrar por fecha disponible
 		if (availableDate) {
 			const date = new Date(availableDate);
 			query.availableDates = {
@@ -33,7 +46,7 @@ const searchApartments = async (req, res) => {
 			};
 		}
 
-		// Sorting logic
+		// Ordenamiento
 		let sortOption = {};
 		if (sortOrder) {
 			switch (sortOrder) {
@@ -63,11 +76,16 @@ const searchApartments = async (req, res) => {
 };
 
 
+
 const getApartmentDetails = async (req, res) => {
 	try {
 		const apartment = await Apartment.findById(req.params.apartmentId);
-		if (!apartment || !apartment.isActive) {
+		if (!apartment /* || !apartment.isActive */) {
 			return res.status(404).send('Apartment not found');
+		}
+		// Si el apartamento no está activo y el usuario no es administrador, mostrar error o redirigir
+		if (!apartment.isActive && !req.session.isAdmin) {
+			return res.status(403).send('Este apartamento no está disponible actualmente.');
 		}
 		res.render('apartment-detail', { apartment });
 	} catch (error) {

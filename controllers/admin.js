@@ -80,7 +80,8 @@ const updateApartment = async (req, res) => {
 			province: req.body.province,
 			city: req.body.city,
 			gps: req.body.gps,
-			availableDates: req.body.availableDates ? JSON.parse(req.body.availableDates) : []
+			availableDates: req.body.availableDates ? JSON.parse(req.body.availableDates) : [],
+			isActive: req.body.isActive === 'true',
 		};
 
 		await Apartment.findByIdAndUpdate(req.params.id, apartmentData);
