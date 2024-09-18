@@ -182,13 +182,13 @@
 			<script>
 				document.addEventListener('DOMContentLoaded', function () {
 					// Extract latitude and longitude from the GPS coordinates
-					const gpsCoordinates = "<%= apartment.gps %>"; // Assuming format "latitude,longitude"
+					const gpsCoordinates = "<%= apartment.gps %>";
 					const [latitude, longitude] = gpsCoordinates.split(',').map(coord => parseFloat(coord.trim()));
 
 					// Initialize the map
 					const map = L.map('map').setView([latitude, longitude], 13);
 
-					// Set up the tile layer (you can use OpenStreetMap tiles)
+					// Set up the tile layer (use OpenStreetMap tiles)
 					L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 						attribution: '&copy; OpenStreetMap contributors'
 					}).addTo(map);
