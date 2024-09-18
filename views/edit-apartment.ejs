@@ -17,9 +17,9 @@
 		</div>
 
 		<div class="container mt-5">
-			<h1>Edit Apartment</h1>
+			<h1 class="text-center mb-4">Edit Apartment</h1>
 			<form action="/admin/apartment/<%= apartment._id %>" method="POST">
-				<div class="mb-3">
+				<div class="col-md-6">
 					<label for="title" class="form-label">Apartment Title</label>
 					<input type="text" id="title" name="title" value="<%= apartment.title %>" required
 						class="form-control">

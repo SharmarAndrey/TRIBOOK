@@ -21,50 +21,51 @@
 			<h1 class="text-center">Reservations</h1>
 
 			<%- include('./partials/messages') %>
-
-				<table class="table table-bordered table-striped table-hover mt-4">
-					<thead class="table-primary">
-						<tr>
-							<th>Email</th>
-							<th>Apartment</th>
-							<th>Start Date</th>
-							<th>End Date</th>
-							<th>Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% reservations.forEach(reservation=> { %>
+				<div class="table-responsive">
+					<table class="table table-bordered table-striped table-hover mt-4">
+						<thead class="table-primary">
 							<tr>
-								<td>
-									<%= reservation.email %>
-								</td>
-								<td>
-									<% if (reservation.apartment) { %>
-										<%= reservation.apartment.title %>
-											<% } else { %>
-												<em>No Apartment Linked</em>
-												<% } %>
-								</td>
-								<td>
-									<%= new Date(reservation.startDate).toLocaleDateString() %>
-								</td>
-								<td>
-									<%= new Date(reservation.endDate).toLocaleDateString() %>
-								</td>
-								<td>
-									<!-- button for reservation details-->
-									<a href="/admin/reservations/<%= reservation._id %>"
-										class="btn btn-info">Details</a>
-
-
-									<form action="/admin/reservations/cancel/<%= reservation._id %>" method="POST">
-										<button type="submit" class="btn btn-danger">Cancel</button>
-									</form>
-								</td>
+								<th>Email</th>
+								<th>Apartment</th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Actions</th>
 							</tr>
-							<% }) %>
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							<% reservations.forEach(reservation=> { %>
+								<tr>
+									<td>
+										<%= reservation.email %>
+									</td>
+									<td>
+										<% if (reservation.apartment) { %>
+											<%= reservation.apartment.title %>
+												<% } else { %>
+													<em>No Apartment Linked</em>
+													<% } %>
+									</td>
+									<td>
+										<%= new Date(reservation.startDate).toLocaleDateString() %>
+									</td>
+									<td>
+										<%= new Date(reservation.endDate).toLocaleDateString() %>
+									</td>
+									<td>
+										<!-- button for reservation details-->
+										<a href="/admin/reservations/<%= reservation._id %>"
+											class="btn btn-info">Details</a>
+
+
+										<form action="/admin/reservations/cancel/<%= reservation._id %>" method="POST">
+											<button type="submit" class="btn btn-danger">Cancel</button>
+										</form>
+									</td>
+								</tr>
+								<% }) %>
+						</tbody>
+					</table>
+				</div>
 		</div>
 
 		<%- include('./partials/footer') %>
