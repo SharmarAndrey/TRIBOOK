@@ -12,6 +12,10 @@
 <body>
 	<%- include('./partials/navbar') %>
 
+		<div class="container mt-3">
+			<%- include('./partials/messages') %>
+		</div>
+
 		<main class="container mt-5">
 			<h1>Add New Apartment</h1>
 			<form action="/admin/apartment/new-apartment" method="POST" class="row g-3">

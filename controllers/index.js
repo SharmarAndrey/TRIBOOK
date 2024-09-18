@@ -121,10 +121,19 @@ const createNewReservation = async (req, res) => {
 			endDate: end,
 			apartment: apartment._id
 		});
+		req.session.messages.push({
+			type: 'success',
+			text: '¡Reserva creada exitosamente!'
+		});
 
-		res.json({ message: 'Reservation created successfully!', reservation: newReservation });
+		res.redirect('/');
 	} catch (error) {
-		res.status(500).json({ message: 'Error creating reservation.', error: error.message });
+		req.session.messages.push({
+			type: 'danger',
+			text: 'Error al crear la reserva: ' + error.message
+		});
+
+		res.redirect('back'); // Vuelve a la página anterior
 	}
 };
 const getCities = async (req, res) => {

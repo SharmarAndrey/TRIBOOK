@@ -12,6 +12,10 @@
 <body>
 	<%- include('./partials/navbar') %>
 
+		<div class="container mt-3">
+			<%- include('./partials/messages') %>
+		</div>
+
 		<div class="container mt-5">
 			<h1>Edit Apartment</h1>
 			<form action="/admin/apartment/<%= apartment._id %>" method="POST">

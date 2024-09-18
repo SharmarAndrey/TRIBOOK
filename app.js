@@ -29,6 +29,21 @@ app.use(session({
 	saveUninitialized: true
 }));
 
+// Middleware para inicializar mensajes flash
+app.use((req, res, next) => {
+	if (!req.session.messages) {
+		req.session.messages = [];
+	}
+	next();
+});
+
+
+// Middleware para pasar mensajes a las vistas y limpiarlos de la sesión
+app.use((req, res, next) => {
+	res.locals.messages = req.session.messages;
+	req.session.messages = [];
+	next();
+});
 // Middleware to pass session variables to views
 app.use((req, res, next) => {
 	res.locals.isAuthenticated = req.session.userId ? true : false;

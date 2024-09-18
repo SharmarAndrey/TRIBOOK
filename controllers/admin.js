@@ -85,9 +85,21 @@ const updateApartment = async (req, res) => {
 		};
 
 		await Apartment.findByIdAndUpdate(req.params.id, apartmentData);
+
+		req.session.messages.push({
+			type: 'success',
+			text: 'El apartamento ha sido actualizado correctamente.'
+		});
+
+
 		res.redirect('/');
 	} catch (error) {
-		res.status(500).json({ message: 'Failed to update apartment', error: error.message });
+		// Establecer mensaje de error
+		req.session.messages.push({
+			type: 'danger',
+			text: 'Error al actualizar el apartamento: ' + error.message
+		});
+		res.redirect('/');
 	}
 };
 
