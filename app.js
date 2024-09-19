@@ -13,6 +13,7 @@ const indexRoutes = require('./routes/index');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
+const apiRoutes = require('./routes/api.js');
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -55,7 +56,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/admin', adminRoutes);
 app.use('/', indexRoutes);
-
+app.use('/api', apiRoutes);
 // Connect to the database
 async function connectDB() {
 	try {
