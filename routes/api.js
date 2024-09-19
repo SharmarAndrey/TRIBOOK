@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const apiControllers = require('../controllers/api');
+// Importar los controladores
+const { getApartments, searchApartments } = require('../controllers/api');
 
-router.get('/apartments', apiControllers.getApartments);
+// Rutas de la API
+router.get('/apartments', getApartments);
+router.get('/apartments/search', searchApartments);
 
 module.exports = router;
