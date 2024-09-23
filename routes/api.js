@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
-
-// Importar los controladores
+const { query } = require('express-validator'); // Import the validation functions
 const { getApartments, searchApartments } = require('../controllers/api');
 
-// Rutas de la API
+// Route to get all apartments
 router.get('/apartments', getApartments);
-router.get('/apartments/search', searchApartments);
+
+// Define search route with validation for query 'q'
+router.get('/apartments/search', [
+	query('q').isLength({ min: 3, max: 100 }).withMessage("Search query must be between 3 and 100 characters")
+], searchApartments);
 
 module.exports = router;
