@@ -20,10 +20,10 @@ async function checkPassword() {
 			return;
 		}
 
-		// Логирование хэша пароля из базы данных
+		// hash of password frome Data base
 		console.log(`Stored hash: ${user.password}`);
 
-		// Проверка пароля
+		// Check password
 		const isMatch = await bcrypt.compare(password, user.password);
 		if (isMatch) {
 			console.log('Password is correct');
