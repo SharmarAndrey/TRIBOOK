@@ -100,42 +100,58 @@ const createNewReservation = async (req, res) => {
 		const start = new Date(startDate);
 		const end = new Date(endDate);
 		if (start >= end) {
-			return res.status(400).json({ message: 'Start date must be earlier than end date.' });
+			req.session.messages.push({
+				type: 'danger',
+				text: 'Start date must be earlier than end date.'
+			});
+			return res.redirect('back');
 		}
 
 		const apartment = await Apartment.findById(apartmentId);
 		if (!apartment) {
-			return res.status(404).json({ message: 'Apartment not found.' });
+			req.session.messages.push({
+				type: 'danger',
+				text: 'Apartment not found.'
+			});
+			return res.redirect('back');
 		}
 
 		const isAvailable = apartment.availableDates.some(availableRange => {
 			return start >= availableRange.startDate && end <= availableRange.endDate;
 		});
 		if (!isAvailable) {
-			return res.status(400).json({ message: 'Apartment is not available for the selected dates.' });
+			// Pass a message to the session for the alert
+			req.session.messages.push({
+				type: 'danger',
+				text: 'Apartment is not available for the selected dates.'
+			});
+			return res.redirect('back');
 		}
 
-		const newReservation = await Reservation.create({
+		// Create new reservation if dates are available
+		await Reservation.create({
 			email,
 			startDate: start,
 			endDate: end,
 			apartment: apartment._id
 		});
+
 		req.session.messages.push({
 			type: 'success',
-			text: '¡Reserva creada exitosamente!'
+			text: 'Reservation created successfully!'
 		});
 
 		res.redirect('/');
 	} catch (error) {
 		req.session.messages.push({
 			type: 'danger',
-			text: 'Error al crear la reserva: ' + error.message
+			text: 'Error creating reservation:  ' + error.message
 		});
 
 		res.redirect('back'); // Vuelve a la página anterior
 	}
 };
+
 const getCities = async (req, res) => {
 	const { province } = req.query;
 
