@@ -125,9 +125,9 @@ PORT=3000
 
 ## 📸 Screenshots
 
-Include screenshots of your application here. Example:
+ Screenshots of your application 
 
-![App Screenshot](./public/images/TRIBOOK1.png)
+![App Screenshot](./public/images/TRIBOOK1.png) ![App Screenshot](./public/images/TRIBOOK1.png) 
 
 ---
 
