@@ -127,8 +127,10 @@ PORT=3000
 
  Screenshots of your application 
 
-![App Screenshot](./public/images/TRIBOOK1.png) ![App Screenshot](./public/images/TRIBOOK1.png) 
-
+![App Screenshot](./public/images/TRIBOOK1.png) 
+![App Screenshot](./public/images/TRIBOOK2.png)
+![App Screenshot](./public/images/TRIBOOK3.png)
+![App Screenshot](./public/images/TRIBOOK4.png)
 ---
 
 ## 🌐 Live Application
