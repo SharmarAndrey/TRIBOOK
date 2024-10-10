@@ -4,13 +4,32 @@ const Apartment = require('../models/apartment.model');
 // Controller to get apartments
 const getApartments = async (req, res) => {
 	try {
-		const apartments = await Apartment.find();
-		res.status(200).json(apartments);
+		// Get the 'limit' query parameter, if present
+		let { limit } = req.query;
+
+		// If 'limit' is provided and is a valid positive integer, apply it, otherwise ignore it
+		if (limit) {
+			limit = parseInt(limit, 10);
+			if (isNaN(limit) || limit <= 0) {
+				return res.status(400).json({
+					message: "'limit' must be a positive number."
+				});
+			}
+		}
+
+		// Find apartments, applying the limit if specified
+		const apartments = await Apartment.find().limit(limit || 0); // 0 means no limit
+
+		res.status(200).json({
+			message: "Query executed successfully",
+			results: apartments
+		});
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: 'Internal server error' });
 	}
 };
+
 
 // Controller to search apartments
 const searchApartments = async (req, res) => {
