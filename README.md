@@ -8,22 +8,22 @@ Welcome to **Tribook**, an apartment reservation management system that enables 
 ---
 
 ## Table of Contents
-1. [Installation](#🚀-installation)
-2. [Usage](#🌐-usage)
-3. [Features](#✨-features)
-4. [API Endpoints](#🔌-api-endpoints)
-5. [Environment Variables](#⚙️-environment-variables)
-6. [Detailed Functionality](#🔍-detailed-functionality)
-7. [Screenshots](#📸-screenshots)
-8. [Live Application](#🌐-live-application)
-9. [Contributing](#🤝-contributing)
-10. [License](#📝-license)
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Features](#features)
+4. [API Endpoints](#api-endpoints)
+5. [Environment Variables](#environment-variables)
+6. [Detailed Functionality](#detailed-functionality)
+7. [Screenshots](#screenshots)
+8. [Live Application](#live-application)
+9. [Contributing](#contributing)
+10. [License](#license)
 
 
 ---
 
  
-## 🚀 Installation 
+## Installation 
 
 To set up this project locally or on a different machine, follow these steps:
 
@@ -42,7 +42,7 @@ To set up this project locally or on a different machine, follow these steps:
 	npm install
 	```
 
-4. **Set up environment variables** in a `.env` file located in the root directory (see [Environment Variables](#environment-variables-)).
+4. **Set up environment variables** in a `.env` file located in the root directory (see [Environment Variables](#environment-variables)).
 
 5. **Start the application**:
 	```bash
@@ -51,7 +51,7 @@ To set up this project locally or on a different machine, follow these steps:
 
 ---
 
-## 🌐 Usage
+## Usage
 
 Once the application is running, open your browser and visit:
 - **Home Page**: `http://localhost:3000` – Browse available apartments and make reservations.
@@ -59,7 +59,7 @@ Once the application is running, open your browser and visit:
 
 ---
 
-## ✨ Features
+## Features
 
 - **Reservation System**: Users can browse apartments and make reservations based on availability.
 - **Apartment Management**: Admins can add, update, or delete apartment listings, including photos, prices, and amenities.
@@ -70,7 +70,7 @@ Once the application is running, open your browser and visit:
 
 ---
 
-## 🔌 API Endpoints
+## API Endpoints
 
 | Method | Endpoint                    | Description                               |
 |--------|-----------------------------|-------------------------------------------|
@@ -81,7 +81,7 @@ Once the application is running, open your browser and visit:
 
 ---
 
-## ⚙️ Environment Variables
+## ⚙Environment Variables
 
 Create a `.env` file in the project root to configure the following variables:
 
@@ -100,7 +100,7 @@ PORT=3000
 
 ---
 
-## 🔍 Detailed Functionality
+## Detailed Functionality
 
 ### 1. **Reservation System**:
    - Users can browse available apartments and book them based on availability. 
@@ -123,7 +123,7 @@ PORT=3000
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
  Screenshots of your application 
 
@@ -133,13 +133,13 @@ PORT=3000
 ![App Screenshot](./public/images/TRIBOOK4.png)
 ---
 
-## 🌐 Live Application
+## Live Application
 
 Access the live version of the application [here](https://tribook-fofj.onrender.com/).
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome community contributions! Here's how you can help:
 
@@ -160,6 +160,6 @@ We welcome community contributions! Here's how you can help:
 
 ---
 
-## 📝 License
+## 📝License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
